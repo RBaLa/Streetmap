@@ -15,8 +15,10 @@ import re
 import sys
 import copy
 
+def eprint(*args,**kwargs):
+    print(*args,file=sys.stderr,**kwargs)
 
-#Functions
+#Function definitions
 def getUserInput(Data):
     """
     Asks for user input and checks for errors. Returns the parsed instructions
@@ -37,18 +39,21 @@ def getUserInput(Data):
     try:
         data = copy.deepcopy(Data)
         parsed_input = {}
-        uin = input("Enter command and press Enter key:\n")
+       # uin = sys.stdin.readline()
+        uin = input()
+        #Regex patterns:
         pattern1 = "(add|mod)\s\"([a-zA-Z\s]+)\"\s((\(-?\d*,-?\d*\) ?){2,})"
         pattern2 = "(rm)\s\"([a-zA-Z\s]+)\""
         pattern3 = "\"( +[a-zA-Z\s]*)\""
         pattern4 = "\)\("
+        #Matching to ensure proper instruction formatting:
         matchobj1 = re.match(pattern1,uin,re.M|re.I) 
         matchobj2 = re.match(pattern2,uin,re.M|re.I)
         matchobj3 = re.search(pattern3,uin,re.M|re.I)
         matchobj4 = re.search(pattern4,uin,re.M|re.I)
-        #split into command, street name, coords
+        #split into command, street name, coords (parsing instruction)
         #If gg
-        if uin == "gg":
+        if "gg" in uin and not matchobj1 and not matchobj2:
             parsed_input['command'] = 'gg'
         #If rm
         elif matchobj2:
@@ -57,8 +62,7 @@ def getUserInput(Data):
                 parsed_input['command'] = matchobj2.group(1)
                 parsed_input['street_name'] = street_name
             else:
-                print("Error: 'rm' specified for street that does not exist.")
-                parsed_input = getUserInput(data)
+                eprint("Error: 'rm' specified for street that does not exist.")
         #If mod or add
         elif matchobj1 and not matchobj3 and not matchobj4: 
             street_name = ''.join(matchobj1.group(2).split()).lower()
@@ -68,31 +72,26 @@ def getUserInput(Data):
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    print("Error: 'add' specified for street already added.",
+                    eprint("Error: 'add' specified for street already added.",
                           " Use 'mod' to change coordinates if needed.")
-                    parsed_input = getUserInput(data)
             else:
                 if (street_name in data):
                     parsed_input['command'] = matchobj1.group(1)
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    print("Error: 'mod' specified for street that does not",
+                    eprint("Error: 'mod' specified for street that does not",
                           " exist.")
-                    parsed_input = getUserInput(data)
-        elif matchobj3:
-            print('Error: Street name not properly formatted. No leading ',
+        elif matchobj3: #Error catching
+            eprint('Error: Street name not properly formatted. No leading ',
                   'space or empty field allowed')
-            parsed_input = getUserInput(data)
-        elif matchobj4:
-            print("Error: No space between each pair of coordinates. Correct",
+        elif matchobj4: #Error catching
+            eprint("Error: No space between each pair of coordinates. Correct",
                   "-> (...) (...)")
-            parsed_input = getUserInput(data)
-        elif uin == "":
-            parsed_input['command'] = 'exit'
+        #elif uin == "": #Termination
+        #    parsed_input['command'] = 'exit'
         else:
-            print('Error: Wrong command format.')
-            parsed_input = getUserInput(data)
+            eprint('Error: Wrong entry format.')
     except EOFError:
         parsed_input['command'] = 'exit'
     return parsed_input
@@ -363,31 +362,35 @@ def main():
     database = dict()
     vertices = dict()
     edges = list()
-    user_input = getUserInput(database) #dict
-    #From user input, get command
-    command = user_input['command']
-    while command != "exit":
-        #If add,mod,rm- compute/re-compute edges, vertices
-        if command != "gg":
-            if command != "rm":
-                database[user_input['street_name']] = user_input['coords']
-            else:
-                del database[user_input['street_name']]
-            
-            lsegs = getLineSegments(database) #dict
-            vertices,edges = getGraph(lsegs) #dict,list
-        
+    while True:
+        user_input = getUserInput(database) #dict
+        if user_input=={}:
+            pass
         else:
-            print("V = {\n  " + "\n  ".join("{!r}: ({!r},{!r})".format(k,v[0],
-                                                                       v[1]) 
-                                    for k,v in vertices.items()) + "\n}")
-            print("E = {\n  "+ "\n  ".join("<{!r},{!r}>,".format(item[0],
-                                                                 item[1])
-                                    for ids,item in enumerate(edges)) + "\n}")
-        
-        #wait for user input again
-        user_input = getUserInput(database)
-        command = user_input['command']
+            #From user input, get command
+            command = user_input['command']
+            if command != "exit":
+                #If add,mod,rm- compute/re-compute edges, vertices
+                if command != "gg":
+                    if command != "rm":
+                        database[user_input['street_name']] = user_input[
+                                                                     'coords']
+                    else:
+                        del database[user_input['street_name']]
+                    
+                    lsegs = getLineSegments(database) #dict
+                    vertices,edges = getGraph(lsegs) #dict,list
+                
+                else:
+                    print("V = {\n  " + "\n  ".join(
+                        "{!r}: ({!r},{!r})".format(k,v[0],v[1]) 
+                        for k,v in vertices.items()) + "\n}")
+                    print("E = {\n  "+ "\n  ".join(
+                        "<{!r},{!r}>,".format(item[0],item[1])
+                        for ids,item in enumerate(edges)) + "\n}")
+                
+            else:
+                break
     print("Program exited.")
     sys.exit(0)
 
