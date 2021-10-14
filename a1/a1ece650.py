@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function #to cover v2.7-3.x compatibility issues in print (specifying file)
 """
 ECE 750 Fall 2021 Assignment 1:
     The program in this file waits for user input and either modifies (add, 
@@ -383,8 +383,7 @@ def main():
                 #If add,mod,rm- compute/re-compute edges, vertices
                 if command != "gg":
                     if command != "rm":
-                        database[user_input['street_name']] = user_input[
-                                                                     'coords']
+                        database[user_input['street_name']] = user_input['coords']
                     else:
                         del database[user_input['street_name']]
                     
@@ -394,10 +393,10 @@ def main():
                 else:
                     print("V = {\n  " + "\n  ".join(
                         "{!r}: ({!r},{!r})".format(k,v[0],v[1]) 
-                        for k,v in vertices.items()) + "\n}")
+                        for k,v in vertices.items()) + "\n}",file=sys.stdout)
                     print("E = {\n  "+ "\n  ".join(
                         "<{!r},{!r}>,".format(item[0],item[1])
-                        for ids,item in enumerate(edges)) + "\n}")
+                        for ids,item in enumerate(edges)) + "\n}",file=sys.stdout)
                 
             else:
                 break
