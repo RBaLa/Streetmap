@@ -16,9 +16,21 @@ import re
 import sys
 import copy
 
-def eprint(args):
-    #print(args,file=sys.stderr,**kwargs)
-    print(args,file=sys.stderr)
+def eprint(arg):
+    """
+    Prints string in 'arg' to standard error.
+
+    Parameters
+    ----------
+    arg : string
+        String to print.
+    
+    Returns
+    -------
+    None.
+
+    """
+    print(arg,file=sys.stderr)
 
 #Function definitions
 def getUserInput(Data):
