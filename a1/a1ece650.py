@@ -424,7 +424,7 @@ def main():
                 
             else:
                 break
-    print("Program exited.")
+    print("Program terminated.")
     sys.exit(0)
 
 if __name__=="__main__":
