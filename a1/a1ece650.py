@@ -1,11 +1,32 @@
 from __future__ import print_function #to cover v2.7-3.x compatibility issues in print (specifying file)
 """
 ECE 750 Fall 2021 Assignment 1:
+Description
+-----------
     The program in this file waits for user input and either modifies (add, 
     remove, modify) entries of streets (each with street name and coordinates 
     of poly-line segments of the street); or returns the edges and vertices of
     an undirected graph as required by the task. Program terminates upon
     encountering EOF (manually: Ctrl+D in Linux systems, and Ctrl+Z in Windows).
+
+Functions
+---------
+eprint(arg) : Returns none. Prints arg to std error.
+getUserInput(database) : Waits for user input and returns parsed input as dict. Also
+                     does error handling.
+getLineSegments(database) : Returns lists of line segments in each street as a dict
+                            of lists from the updated database.
+distance(a,b) : Returns Euclidean distance between 2-D points a and b.
+collinearCheck(line_segment,point) : Returns bool value after checking if point and 
+                                     line segment are collinear and point lies on the
+                                     line segment.
+correctCollinearEdges(edges,vertices) : Returns list of edges after correcting to
+                                        ensure no 3 vertices share an edge.
+removeDuplicateEdges(edges) : Returns list of edges after removing all duplicate edges
+                              as graph is undirected.
+getGraph(line_segments) : Returns edges and vertices of graph computed from the line 
+                          segments in database according to task requirements.
+main() : Directs program flow.
 
 Created on Fri Oct 1 13:51:31 2021
 
@@ -167,9 +188,9 @@ def collinearCheck(ls1,point):
 
     Parameters
     ----------
-    ls1 : List
+    ls1 : list
         Pair of coordinates of form [[x1,y1],[x2,y2]].
-    point : List
+    point : list
         Coordinates of form [x,y].
 
     Returns
