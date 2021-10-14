@@ -385,7 +385,8 @@ def main():
     """
     Main function that waits for user input, modifies database of entries as
     instructed by user and displays resultant graph on request. Program 
-    terminates when enter is pressed without any other instructions (EOF).
+    terminates when parser encounters EOF or user presses special button 
+    combination for EOF (Ctrl+D in Linux, Ctrl+Z in Windows).
 
     Returns
     -------
