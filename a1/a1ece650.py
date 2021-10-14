@@ -82,8 +82,7 @@ def getUserInput(Data):
                 else:
                     eprint("Error: 'mod' specified for street that does not exist.")
         elif matchobj3: #Error catching
-            eprint('Error: Street name not properly formatted. No leading ',
-                  'space or empty field allowed')
+            eprint('Error: Street name not properly formatted. No leading space or empty field allowed')
         elif matchobj4: #Error catching
             eprint("Error: No space between each pair of coordinates. Correct -> (...) (...)")
         elif uin == "": #Termination
