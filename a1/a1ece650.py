@@ -15,9 +15,9 @@ import re
 import sys
 import copy
 
-def eprint(args,**kwargs):
+def eprint(args):
     #print(args,file=sys.stderr,**kwargs)
-    print>>sys.stderr,args
+    print(args,file=sys.stderr)
 
 #Function definitions
 def getUserInput(Data):
