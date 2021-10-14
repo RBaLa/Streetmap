@@ -41,7 +41,7 @@ def getUserInput(Data):
         data = copy.deepcopy(Data)
         parsed_input = {}
        # uin = sys.stdin.readline()
-        uin = input()
+        uin = sys.stdin.readline()
         #Regex patterns:
         pattern1 = "(add|mod)\s\"([a-zA-Z\s]+)\"\s((\(-?\d*,-?\d*\) ?){2,})"
         pattern2 = "(rm)\s\"([a-zA-Z\s]+)\""
@@ -86,8 +86,8 @@ def getUserInput(Data):
                   'space or empty field allowed')
         elif matchobj4: #Error catching
             eprint("Error: No space between each pair of coordinates. Correct -> (...) (...)")
-        #elif uin == "": #Termination
-        #    parsed_input['command'] = 'exit'
+        elif uin == "": #Termination
+            parsed_input['command'] = 'exit'
         else:
             eprint('Error: Wrong entry format.')
     except EOFError:
