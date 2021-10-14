@@ -4,9 +4,10 @@ ECE 750 Fall 2021 Assignment 1:
     The program in this file waits for user input and either modifies (add, 
     remove, modify) entries of streets (each with street name and coordinates 
     of poly-line segments of the street); or returns the edges and vertices of
-    an undirected graph as required by the task.
+    an undirected graph as required by the task. Program terminates upon
+    encountering EOF (manually: Ctrl+D in Linux systems, and Ctrl+Z in Windows).
 
-Created on Fri Oct  1 13:51:31 2021
+Created on Fri Oct 1 13:51:31 2021
 
 @author: r2balamu
 """
