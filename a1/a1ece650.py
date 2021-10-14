@@ -15,9 +15,9 @@ import re
 import sys
 import copy
 
-def eprint(*args,**kwargs):
-    #print(*args,file=sys.stderr,**kwargs)
-    print>>sys.stderr,*args
+def eprint(args,**kwargs):
+    print(args,file=sys.stderr,**kwargs)
+    #print>>sys.stderr,*args
 
 #Function definitions
 def getUserInput(Data):
@@ -73,22 +73,19 @@ def getUserInput(Data):
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    eprint("Error: 'add' specified for street already added.",
-                          " Use 'mod' to change coordinates if needed.")
+                    eprint("Error: 'add' specified for street already added. Use 'mod' to change coordinates if needed.")
             else:
                 if (street_name in data):
                     parsed_input['command'] = matchobj1.group(1)
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    eprint("Error: 'mod' specified for street that does not",
-                          " exist.")
+                    eprint("Error: 'mod' specified for street that does not exist.")
         elif matchobj3: #Error catching
             eprint('Error: Street name not properly formatted. No leading ',
                   'space or empty field allowed')
         elif matchobj4: #Error catching
-            eprint("Error: No space between each pair of coordinates. Correct",
-                  "-> (...) (...)")
+            eprint("Error: No space between each pair of coordinates. Correct -> (...) (...)")
         #elif uin == "": #Termination
         #    parsed_input['command'] = 'exit'
         else:
