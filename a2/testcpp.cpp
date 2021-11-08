@@ -8,10 +8,17 @@
 using namespace std;
 
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], unsigned prev[]){
+// Breadth-first search algorithm referenced from geeksforgeeks.com. Briefly,
+//1. Push source into queue
+//2. While queue is not empty, do:
+//      get a node (say X) from top of queue,
+//      pop queue;
+//      visit all neighbors of X,
+//      update distance of all neighbors and set their parent to X,
+//      if destination is reached, exit algorithm.
 
     bool visited[nV];
-    //*prev = new unsigned[nV];
-    queue<unsigned> q;
+    queue<unsigned> q; //initializing queue for BFS
     for (unsigned i=0;i<nV;i++){
         dist[i] = INT_MAX;
         visited[i] = false;
@@ -21,6 +28,7 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
     visited[src-1] = true;
     q.push(src);
 
+    //BFS Algorithm:
     while(!q.empty()){
         unsigned x = q.front();
         q.pop();

@@ -1,76 +1,145 @@
-// Compile with c++ ece650-a2cpp -std=c++11 -o ece650-a2
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <regex>
+#include <climits>
+#include <queue>
 
-int main(int argc, char** argv) {
-    // Test code. Replaced with your code
+using namespace std;
 
-    // Print command line arguments that were used to start the program
-    std::cout << "Called with " << argc << " arguments\n";
-    for (int i = 0; i < argc; ++i)
-        std::cout << "Arg " << i << " is " << argv[i] << "\n";
+bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], unsigned prev[]){
+// Breadth-first search algorithm referenced from geeksforgeeks.com. Briefly,
+//1. Push source into queue
+//2. While queue is not empty, do:
+//      get a node (say X) from top of queue,
+//      pop queue;
+//      visit all neighbors of X,
+//      update distance of all neighbors and set their parent to X,
+//      if destination is reached, exit algorithm.
 
-    // separator character
-    const char comma = ',';
-
-    // read from stdin until EOF
-    while (!std::cin.eof()) {
-        // print a promt
-        std::cout << "Enter numbers separated by comma: ";
-
-        // read a line of input until EOL and store in a string
-        std::string line;
-        std::getline(std::cin, line);
-
-        // create an input stream based on the line
-        // we will use the input stream to parse the line
-        std::istringstream input(line);
-
-        // we expect each line to contain a list of numbers
-        // this vector will store the numbers.
-        // they are assumed to be unsigned (i.e., positive)
-        std::vector<unsigned> nums;
-
-        // while there are characters in the input line
-        while (!input.eof()) {
-            unsigned num;
-            // parse an integer
-            input >> num;
-            if (input.fail()) {
-                std::cerr << "Error parsing a number\n";
-                break;
-            }
-            else
-                nums.push_back(num);
-
-            // if eof bail out
-            if (input.eof())
-                break;
-
-            // read a character
-            // Note that whitespace is ignored
-            char separator;
-            input >> separator;
-
-            // if error parsing, or if the character is not a comma
-            if (input.fail() || separator != comma) {
-                std::cerr << "Error parsing separator\n";
-                break;
-            }
-        }
-
-        // done parsing a line, print the numbers
-        if (!nums.empty()) {
-            std::cout << "\nYou have entered " << nums.size() << " numbers: ";
-            size_t i = 0;
-            for (unsigned x : nums) {
-                std::cout << x;
-                // print a comma if not the last number
-                i++;
-                if (i < nums.size()) std::cout << ",";
-            }
-        }
-        std::cout << std::endl;
+    bool visited[nV];
+    queue<unsigned> q; //initializing queue for BFS
+    for (unsigned i=0;i<nV;i++){
+        dist[i] = INT_MAX;
+        visited[i] = false;
+        prev[i] = -1;
     }
+    dist[src-1] = 0;
+    visited[src-1] = true;
+    q.push(src);
+
+    //BFS Algorithm:
+    while(!q.empty()){
+        unsigned x = q.front();
+        q.pop();
+        for (int i = 0; i < neighbors[x-1].size(); i++) {
+            if (visited[neighbors[x-1][i]-1] == false) {
+                visited[neighbors[x-1][i]-1] = true;
+                dist[neighbors[x-1][i]-1] = dist[x-1] + 1;
+                prev[neighbors[x-1][i]-1] = x;
+                q.push(neighbors[x-1][i]);
+
+                if (neighbors[x-1][i] == dest)
+                   return true;
+            }
+        }
+    }
+    return false;
+}
+
+int main() {
+
+    regex ex_1("V\\s(\\d+)");
+    regex ex_2("\\<(\\d+),(\\d+)\\>");
+    sregex_iterator End;
+    unsigned nVertices = 0;
+    unsigned nEdges = 0;
+    unsigned source = 0;
+    unsigned destination = 0;
+    vector<unsigned> edgeValues;
+
+    while (!cin.eof()) {
+
+        string line;
+        char command;
+        getline(cin, line);
+        command = line[0];
+        unsigned count=0;
+        if (command=='V'){
+
+            if (edgeValues.size()>0){
+                edgeValues.clear();
+            }
+
+            smatch match;
+            regex_match(line.cbegin(),line.cend(),match,ex_1);
+            int temp = stoi(match[1]);
+            nVertices = temp;
+        }
+        if (command=='E'){
+
+            int temp1, temp2;
+            sregex_iterator iter(line.begin(),line.end(),ex_2);
+            while (iter!=End){
+                temp1 = stoi((*iter)[1]);
+                temp2 = stoi((*iter)[2]);
+                edgeValues.push_back(temp1);
+                edgeValues.push_back(temp2);
+                ++iter;
+            }
+            nEdges = edgeValues.size()/2;
+        }
+        if (command=='s'){
+
+            istringstream input(line);
+            while(!input.eof()){
+                char com;
+                input>>com;
+                input>>source;
+                input>>destination;
+            }
+            if ((source>nVertices)||(destination>nVertices)){
+                cout<<"Error: specified node(s) not in graph"<<endl;
+            }
+            else if ((source<=0)||(destination<=0)){
+                cout<<"Error: specified node value(s) out of range."<<endl;
+            }
+            else{
+                unsigned edges1[nEdges], edges2[nEdges];
+                for (unsigned i=0; i<nEdges; i++){
+                    edges1[i] = edgeValues[2*i];
+                    edges2[i] = edgeValues[2*i+1];
+                }
+
+                vector<unsigned> neighborArray[nVertices];
+                for (unsigned i=0; i<nVertices; i++){
+                    for (unsigned j=0; j<nEdges; j++){
+                        if ((i+1)==edges1[j]){
+                            neighborArray[i].push_back(edges2[j]);
+                        }
+                        if ((i+1)==edges2[j]){
+                            neighborArray[i].push_back(edges1[j]);
+                        }
+                    }
+                }
+                unsigned distance[nVertices], prev[nVertices];
+                if (bFSearch(neighborArray,source,destination,nVertices,distance,prev)==false){
+                    cout<<"Error: No path exists between specified nodes."<<endl;
+                }
+                else{
+                    vector<unsigned> path;
+                    unsigned hop = destination;
+                    path.push_back(hop);
+                    while(prev[hop-1]!=-1){
+                        path.push_back(prev[hop-1]);
+                        hop = prev[hop-1];
+                    }
+                    for (unsigned i = path.size() - 1; i >= 1; i--)
+                        cout << path[i] << "-";
+                    cout<<path[0]<<endl;
+                }
+            }
+        }
+    }
+    return(0);
 }
