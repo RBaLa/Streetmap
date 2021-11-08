@@ -8,7 +8,7 @@
 using namespace std;
 
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], unsigned prev[]){
-// Breadth-first search algorithm referenced from geeksforgeeks.com. Briefly,
+// Breadth-first search algorithm referenced from Introduction to Algorithms. Briefly,
 //1. Push source into queue
 //2. While queue is not empty, do:
 //      get a node (say X) from top of queue,
@@ -17,15 +17,15 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
 //      update distance of all neighbors and set their parent to X,
 //      if destination is reached, exit algorithm.
 
-    bool visited[nV];
+    int color[nV]; //0(white), 1(grey), 2(black)
     queue<unsigned> q; //initializing queue for BFS
     for (unsigned i=0;i<nV;i++){
         dist[i] = INT_MAX;
-        visited[i] = false;
+        color[i] = 0;//white
         prev[i] = -1;
     }
     dist[src-1] = 0;
-    visited[src-1] = true;
+    color[src-1] = 1;//grey
     q.push(src);
 
     //BFS Algorithm:
@@ -33,14 +33,15 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
         unsigned x = q.front();
         q.pop();
         for (int i = 0; i < neighbors[x-1].size(); i++) {
-            if (visited[neighbors[x-1][i]-1] == false) {
-                visited[neighbors[x-1][i]-1] = true;
+            if (color[neighbors[x-1][i]-1] == 0) {
+                color[neighbors[x-1][i]-1] = 1;
                 dist[neighbors[x-1][i]-1] = dist[x-1] + 1;
                 prev[neighbors[x-1][i]-1] = x;
                 q.push(neighbors[x-1][i]);
 
                 if (neighbors[x-1][i] == dest)
                    return true;
+                color[x-1] = 2;
             }
         }
     }
