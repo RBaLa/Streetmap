@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], unsigned prev[]){
+bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
 // Breadth-first search algorithm referenced from Introduction to Algorithms. Briefly,
 //1. Push source into queue
 //2. While queue is not empty, do:
@@ -32,7 +32,7 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
     while(!q.empty()){
         unsigned x = q.front();
         q.pop();
-        for (int i = 0; i < neighbors[x-1].size(); i++) {
+        for (unsigned i = 0; i < neighbors[x-1].size(); i++) {
             if (color[neighbors[x-1][i]-1] == 0) {
                 color[neighbors[x-1][i]-1] = 1;
                 dist[neighbors[x-1][i]-1] = dist[x-1] + 1;
@@ -123,7 +123,8 @@ int main() {
                         }
                     }
                 }
-                unsigned distance[nVertices], prev[nVertices];
+                unsigned distance[nVertices];
+                int prev[nVertices];
                 if (bFSearch(neighborArray,source,destination,nVertices,distance,prev)==false){
                     cout<<"Error: No path exists between specified nodes."<<endl;
                 }
