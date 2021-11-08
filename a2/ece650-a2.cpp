@@ -65,7 +65,6 @@ int main() {
         char command;
         getline(cin, line);
         command = line[0];
-        unsigned count=0;
         if (command=='V'){
 
             if (edgeValues.size()>0){
