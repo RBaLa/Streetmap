@@ -23,18 +23,9 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
 
     while(!q.empty()){
         unsigned x = q.front();
-        cout<<"x = "<<x<<endl;
-        cout<<"neighbors:"<<endl;
-        for (int i = 0; i < neighbors[x-1].size(); i++) {
-            cout<<"   "<<neighbors[x-1][i]<<" ";
-        }
-        cout<<endl;
         q.pop();
         for (int i = 0; i < neighbors[x-1].size(); i++) {
-            cout<<"x-1="<<x-1<<" i="<<i<<" nbr="<<neighbors[x-1][i]<<endl;
-            cout<<"conditional:"<<visited[neighbors[x-1][i]-1]<<endl;
             if (visited[neighbors[x-1][i]-1] == false) {
-                cout<<"inside conditional"<<endl;
                 visited[neighbors[x-1][i]-1] = true;
                 dist[neighbors[x-1][i]-1] = dist[x-1] + 1;
                 prev[neighbors[x-1][i]-1] = x;
