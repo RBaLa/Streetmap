@@ -44,10 +44,10 @@ int main() {
     regex ex_1("V\\s(\\d+)");
     regex ex_2("\\<(\\d+),(\\d+)\\>");
     sregex_iterator End;
-    unsigned nVertices;
-    unsigned nEdges;
-    unsigned source;
-    unsigned destination;
+    unsigned nVertices = 0;
+    unsigned nEdges = 0;
+    unsigned source = 0;
+    unsigned destination = 0;
     vector<unsigned> edgeValues;
 
     while (!cin.eof()) {
