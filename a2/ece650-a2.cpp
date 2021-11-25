@@ -8,7 +8,7 @@
 using namespace std;
 
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
-// Breadth-first search algorithm referenced from Introduction to Algorithms. Briefly,
+// Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
 //1. Push source into queue
 //2. While queue is not empty, do:
 //      get a node (say X) from top of queue,
@@ -65,7 +65,6 @@ int main() {
         char command;
         getline(cin, line);
         command = line[0];
-        unsigned count=0;
         if (command=='V'){
 
             if (edgeValues.size()>0){
