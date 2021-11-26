@@ -60,8 +60,11 @@ int main(int argc, char** argv){
                     close(pipes[2]);
                     close(pipes[3]);
                     
-                    for (unsigned i = 0; i < 3; i++)
+                    while (!cin.eof()){
                         wait(&status);
+                        kill(-1,SIGTERM);
+                    }
+                    
                 }
             }
         }
