@@ -23,13 +23,27 @@ class street{
         list<arr>::iterator se_id;
 };
 
-bool checkCollinearity(a,b){
+bool checkCollinearity(vector<int> ls_11,vector<int> ls_12,vector<int> ls_21,vector<int> ls_22){
     bool value = false;
-    int s1_x = p1_x-p0_x
-    s2_x = p3_x-p2_x
-    s1_y = p1_y-p0_y
-    s2_y = p3_y-p2_y
-    det = float(-s2_x*s1_y+s1_x*s2_y)
+    int p0_x = ls_11[0];
+    int p0_y = ls_11[1];
+    int p1_x = ls_12[0];
+    int p1_y = ls_12[1];
+    int p2_x = ls_21[0];
+    int p2_y = ls_21[1];
+    int p3_x = ls_22[0];
+    int p3_y = ls_22[1];
+
+    int s1_x = p1_x-p0_x;
+    int s2_x = p3_x-p2_x;
+    int s1_y = p1_y-p0_y;
+    int s2_y = p3_y-p2_y;
+    float det = (-s2_x*s1_y+s1_x*s2_y);
+    if (det==0){
+        //check which of the two segments are smaller
+        //check if any of the two points of the smaller are on the larger
+        //value = true if above condition is fulfilled
+    }
 
     return value;
 }
