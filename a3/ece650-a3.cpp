@@ -22,6 +22,7 @@ int main(int argc, char** argv){
         close(pipes[2]);
         close(pipes[3]);
         execv("./rgen",argv);
+        
     }
     else{
         child_a1 = fork();
@@ -60,7 +61,8 @@ int main(int argc, char** argv){
                     close(pipes[2]);
                     close(pipes[3]);
                     
-                    
+                    while (!cin.eof()){}
+                    kill(-1,SIGTERM);
                 }
             }
         }
