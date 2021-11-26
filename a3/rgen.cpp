@@ -25,6 +25,12 @@ class street{
 
 bool checkCollinearity(a,b){
     bool value = false;
+    int s1_x = p1_x-p0_x
+    s2_x = p3_x-p2_x
+    s1_y = p1_y-p0_y
+    s2_y = p3_y-p2_y
+    det = float(-s2_x*s1_y+s1_x*s2_y)
+
     return value;
 }
 
