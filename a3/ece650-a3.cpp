@@ -60,10 +60,6 @@ int main(int argc, char** argv){
                     close(pipes[2]);
                     close(pipes[3]);
                     
-                    while (!cin.eof()){
-                        wait(&status);
-                        kill(-1,SIGTERM);
-                    }
                     
                 }
             }
