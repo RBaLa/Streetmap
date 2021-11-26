@@ -5,12 +5,31 @@
 #include <climits>
 #include <queue>
 #include <random>
+#include <unistd.h>
 
 using namespace std;
 
+class database{
+    public:
+        list<string> street_names;
+        list<string>::iterator street_id;
+        
+};
+
+class street{
+    public:
+        typedef vector<int> arr;
+        list<arr> segment_endpoints;
+        list<arr>::iterator se_id;
+};
+
+bool checkCollinearity(a,b){
+    bool value = false;
+    return value;
+}
+
 int main(int argc, char** argv){
     
-    random_device urandom("/dev/urandom");
     int s = 10;
     int n = 5;
     int l = 5;
@@ -30,11 +49,33 @@ int main(int argc, char** argv){
             c = stoi(argv[i+1]);
         }
     }
+    random_device urandom("/dev/urandom");
     uniform_int_distribution<unsigned> d_s(2,s);
     uniform_int_distribution<unsigned> d_n(1,n);
     uniform_int_distribution<unsigned> d_l(5,l);
     uniform_int_distribution<unsigned> d_c(-c,c);
     
-    
-    
+    unsigned try_count = 0;
+    unsigned second = 1000000;
+    while(!cin.eof()){
+
+        //for s streets:
+        //   get a n value
+        unsigned n_streets = d_n(urandom);
+        //   choose a starting point in [-l,l]x[-l,l] which is not part of any street in database
+        
+        //   if no such point exists, exit(1)
+        //   for n segments:
+        //      chose next point such that formed segment is not collinear with any existing segment
+        //      if no such point exists, break out of this loop and decrement i; try_count++; if try_...
+        //      set chosen point as starting point for next segment
+        //if fail->
+        try_count++;
+        if (try_count>=25){
+            exit(1);
+        }
+        unsigned sleep_period = d_l(urandom);
+        usleep(sleep_period*second);
+    }
+    return 0;
 }
