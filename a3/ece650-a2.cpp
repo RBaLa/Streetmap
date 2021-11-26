@@ -73,8 +73,8 @@ int main() {
 
             smatch match;
             regex_match(line.cbegin(),line.cend(),match,ex_1);
-            int temp = stoi(match[1]);
-            nVertices = temp;
+            nVertices = stoi(match[1]);
+            cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
 
@@ -94,13 +94,25 @@ int main() {
                 }
             }
             if (E_flag==1){
-                cout<<"Error: vertex specified beyond range"<<endl;
+                cerr<<"Error: vertex specified beyond range"<<endl;
                 continue;
             }
             nEdges = edgeValues.size()/2;
+            if (nEdges>1){
+                cout<<"E {";
+                for (unsigned i=0;i<nEdges-1;i++){
+                    cout<<"<"<<edgeValues[2*i]<<","<<edgeValues[2*i+1]<<">,";
+                }
+                cout<<"<"<<edgeValues[2*(nEdges-1)]<<","<<edgeValues[2*(nEdges-1)+1]<<">}"<<endl;
+            }
+            else if (nEdges==1){
+                cout<<"E {<"<<edgeValues[0]<<","<<edgeValues[1]<<">}"<<endl;
+            }
+            else{
+                cout<<"E {}"<<endl;
+            }
         }
         if (command=='s'){
-
             istringstream input(line);
             while(!input.eof()){
                 char com;
@@ -109,10 +121,10 @@ int main() {
                 input>>destination;
             }
             if ((source>nVertices)||(destination>nVertices)){
-                cout<<"Error: specified node(s) not in graph"<<endl;
+                cerr<<"Error: specified node(s) not in graph"<<endl;
             }
             else if ((source<=0)||(destination<=0)){
-                cout<<"Error: specified node value(s) out of range."<<endl;
+                cerr<<"Error: specified node value(s) out of range."<<endl;
             }
             else{
                 unsigned edges1[nEdges], edges2[nEdges];
@@ -135,7 +147,7 @@ int main() {
                 unsigned distance[nVertices];
                 int prev[nVertices];
                 if (bFSearch(neighborArray,source,destination,nVertices,distance,prev)==false){
-                    cout<<"Error: No path exists between specified nodes."<<endl;
+                    cerr<<"Error: No path exists between specified nodes."<<endl;
                 }
                 else{
                     vector<unsigned> path;
