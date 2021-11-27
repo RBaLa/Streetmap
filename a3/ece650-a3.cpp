@@ -40,7 +40,7 @@ int main(int argc, char** argv){
             child_a2 = fork();
             if (child_a2==0){
                 int dup2check4 = dup2(pipe2[0],STDIN_FILENO);
-                cerr<<"dup2 check a2:"<<dup2check4
+                cerr<<"dup2 check a2:"<<dup2check4<endl;
                 close(pipe2[1]);
                 close(pipe2[0]);
                 close(pipe1[1]);
