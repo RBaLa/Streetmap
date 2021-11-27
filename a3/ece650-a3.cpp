@@ -9,59 +9,62 @@ using namespace std;
 int main(int argc, char** argv){
     
     pid_t child_rgen,child_a1,child_a2,child_read;
-    int pipes[4];
-    pipe(pipes);
-    pipe(pipes+2);
+    int pipe1[2],pipe2[2];
+    pipe(pipe1);
+    pipe(pipe2);
     int status;
     
     child_rgen = fork();
     if (child_rgen==0){
-        dup2(pipes[1],STDOUT_FILENO);
-        close(pipes[0]);
-        close(pipes[1]);
-        close(pipes[2]);
-        close(pipes[3]);
+        dup2(pipe1[1],STDOUT_FILENO);
+        close(pipe1[0]);
+        close(pipe1[1]);
+        close(pipe2[0]);
+        close(pipe2[1]);
         execv("./rgen",argv);
         
     }
     else{
         child_a1 = fork();
         if (child_a1==0){
-            dup2(pipes[0],STDIN_FILENO);
-            close(pipes[1]);
-            close(pipes[0]);
-            dup2(pipes[3],STDOUT_FILENO);
-            close(pipes[2]);
-            close(pipes[3]);
+            dup2(pipe1[0],STDIN_FILENO);
+            close(pipe1[1]);
+            close(pipe1[0]);
+            dup2(pipe2[1],STDOUT_FILENO);
+            close(pipe2[0]);
+            close(pipe2[1]);
             execvp("./ece650-a1",{NULL});
         }
         else{
             child_a2 = fork();
             if (child_a2==0){
-                dup2(pipes[2],STDIN_FILENO);
-                close(pipes[3]);
-                close(pipes[2]);
-                close(pipes[1]);
-                close(pipes[0]);
+                dup2(pipe2[0],STDIN_FILENO);
+                close(pipe2[1]);
+                close(pipe2[0]);
+                close(pipe1[1]);
+                close(pipe1[0]);
                 execvp("./ece650-a2",{NULL});
             }
             else{
                 child_read = fork();
                 if (child_read==0){
-                    dup2(pipes[3],STDOUT_FILENO);
-                    close(pipes[2]);
-                    close(pipes[1]);
-                    close(pipes[0]);
-                    close(pipes[3]);
+                    dup2(pipe2[1],STDOUT_FILENO);
+                    close(pipe2[0]);
+                    close(pipe2[1]);
+                    close(pipe1[0]);
+                    close(pipe1[1]);
                     execvp("./readinput",{NULL});
                 }
                 else{
-                    close(pipes[0]);
-                    close(pipes[1]);
-                    close(pipes[2]);
-                    close(pipes[3]);
-                    
-                    while (!cin.eof()){}
+                    close(pipe1[0]);
+                    close(pipe1[1]);
+                    close(pipe2[0]);
+                    close(pipe2[1]);
+                    string line;
+                    while (true){
+                        if (cin.eof())
+                            break;
+                    }
                     kill(-1,SIGTERM);
                 }
             }
