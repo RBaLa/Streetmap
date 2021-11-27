@@ -7,6 +7,8 @@
 
 using namespace std;
 
+cerr<<"A2!"<<endl;
+
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
 // Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
 //1. Push source into queue
