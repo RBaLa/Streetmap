@@ -12,6 +12,8 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/run)
 ## add additional .cpp files if needed
 add_executable(ece650-a2 ece650-a2.cpp )
 add_executable(ece650-a3 ece650-a3.cpp )
+add_executable(rgen rgen.cpp)
+add_executable(readinput readinput.cpp)
 
 # create the executable for tests
 add_executable(tests test.cpp)
