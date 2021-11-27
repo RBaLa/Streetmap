@@ -41,7 +41,7 @@ int main(int argc, char** argv){
                 close(pipe2[0]);
                 close(pipe1[1]);
                 close(pipe1[0]);
-                execv("./ece650-a2",{NULL});
+                execv("./ece650-a2",(char**)NULL);
             }
             else{
                 dup2(pipe2[1],STDOUT_FILENO);
