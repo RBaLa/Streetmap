@@ -41,8 +41,6 @@ import sys
 import copy
 import math
 
-print("A1!",file=sys.stderr)
-
 def eprint(arg):
     """
     Prints string in 'arg' to standard error.
@@ -401,9 +399,7 @@ def main():
     vertices = dict()
     edges = list()
     while True:
-        eprint("Getting input from rgen")
         user_input = getUserInput(database) #dict
-        eprint("Received input from rgen")
         if user_input=={}:
             pass
         else:
@@ -433,8 +429,6 @@ def main():
                                 new_edges[i][1]= j+1
                     print("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}",file=sys.stdout)
-                    eprint("Sent V, E to A2")
-                
             else:
                 break
     sys.exit(0)
