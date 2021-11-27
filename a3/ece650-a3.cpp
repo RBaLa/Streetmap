@@ -21,7 +21,6 @@ int main(int argc, char** argv){
         close(pipe2[0]);
         close(pipe2[1]);
         execv("./rgen",argv);
-        
     }
     else{
         child_a1 = fork();
@@ -32,7 +31,7 @@ int main(int argc, char** argv){
             dup2(pipe2[1],STDOUT_FILENO);
             close(pipe2[0]);
             close(pipe2[1]);
-            execvp("./ece650-a1",{NULL});
+            execv("./ece650-a1",{NULL});
         }
         else{
             child_a2 = fork();
@@ -42,7 +41,7 @@ int main(int argc, char** argv){
                 close(pipe2[0]);
                 close(pipe1[1]);
                 close(pipe1[0]);
-                execvp("./ece650-a2",{NULL});
+                execv("./ece650-a2",{NULL});
             }
             else{
                 child_read = fork();
@@ -52,7 +51,7 @@ int main(int argc, char** argv){
                     close(pipe2[1]);
                     close(pipe1[0]);
                     close(pipe1[1]);
-                    execvp("./readinput",{NULL});
+                    execv("./readinput",{NULL});
                 }
                 else{
                     close(pipe1[0]);
