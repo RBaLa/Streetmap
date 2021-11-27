@@ -7,7 +7,6 @@
 
 using namespace std;
 
-cerr<<"A2!"<<endl;
 
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
 // Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
@@ -51,7 +50,8 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
 }
 
 int main() {
-
+    
+    cerr<<"A2!"<<endl;
     regex ex_1("V\\s(\\d+)");
     regex ex_2("\\<(\\d+),(\\d+)\\>");
     sregex_iterator End;
