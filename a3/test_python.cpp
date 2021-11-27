@@ -4,6 +4,6 @@
 using namespace std;
 
 int main(){
-    execlp("python","python","ece650-a1.py",(char*) NULL);
+    execv("./rgen,NULL");
     return 0;
 }
