@@ -1,7 +1,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <list>
 #include <regex>
 #include <string.h>
 #include <random>
@@ -70,27 +69,20 @@ bool checkCollinearity(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two
         if (checkIfPointOnLine(ls_21,ls_22,ls_11)||checkIfPointOnLine(ls_21,ls_22,ls_12))
             value = true;
     }
-
     return value;
 }
 
 bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
     bool value = false;
-    //if database empty
     if (database.size()==0){
-    //  If current street only has one segment endpoint:
-        if (st.segment_endpoints.size()==0){
-    //      check if b is same as a; if not, return true
+        if (st.segment_endpoints.size()==1){
             if (!(a[0]==b[0]&&a[1]==b[1])){
                 value=true;
             }
         }
         else{
-    //      else,for all line segments (i,i+1) in street seg endpts:
             for (unsigned i=0;i<st.segment_endpoints.size()-1;i++){
-    //          check if a-b is collinear with each; if none evaluate true, return true
                 if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1]))
-                    value = false;
                     break;
                 if (i==st.segment_endpoints.size()-2)
                     value = true;
@@ -98,16 +90,14 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
         }
     }
     else{
-    //if database not empty
-    //  for all streets in database, and all segments in each street:
         Street temp;
         for (unsigned j=0;j<database.size();j++){
             temp = database[j];
             for (unsigned i=0;i<temp.segment_endpoints.size()-1;i++){
-    //          check if a-b is collinear with each; if none evaluate true, return true
-                if (checkCollinearity(a,b,temp.segment_endpoints[i],temp.segment_endpoints[i+1]))
+                if (checkCollinearity(a,b,temp.segment_endpoints[i],temp.segment_endpoints[i+1])){
                     value = false;
                     break;
+                }
                 if (i==temp.segment_endpoints.size()-2)
                     value = true;
             }
@@ -117,8 +107,6 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
                 value = true;
         }
     }
-    if (value==true)
-        cout<<"^^^^^^^passed suitability check^^^^^^^"<<endl;
     return value;
 }
 
@@ -160,9 +148,13 @@ int main(int argc, char** argv){
     int count = 0;
     Street st;
     while(!cin.eof()){
-        //n_streets = d_n(urandom);
-        n_streets = 1; //Testing
-        cout<<"*****Number of streets: "<<n_streets<<" *****\n";
+        if (database.size()!=0){
+            for (unsigned i=0;i<database.size();i++){
+                cout<<"rm "<<"\""<<database[i].name<<"\""<<endl;
+            }
+            database.clear();
+        }
+        n_streets = d_n(urandom);
         for (unsigned i=0;i<n_streets;i++){
             name_l = name_length(urandom);
             for (unsigned k=0;k<name_l;k++){
@@ -170,57 +162,42 @@ int main(int argc, char** argv){
                 st.name.push_back(ch);
             }
             st.name.append(" street");
-            cout<<"***street name= "<<st.name<<" ***\n";
             start[0] = d_c(urandom);
             start[1] = d_c(urandom);
             st.segment_endpoints.push_back(start);
-            //n_segments = d_n(urandom);
-            n_segments = 10;//Testing
-            cout<<"no. of segments: "<<n_segments<<endl;
+            n_segments = d_n(urandom);
             for (unsigned j=0;j<n_segments;j++){
-                /*for (unsigned k=0;k<5;k++){
-                    next[0] = d_c(urandom);
-                    next[1] = d_c(urandom);
-                    if (suitabilityCheck(start,next,st))
-                        break;
-                    if (k==4){
-                        try_count++;
-                        if (try_count>=25)
-                            exit(1);
-                        k=0;
-                    }
-                }*/ //Testing
                 next[0] = d_c(urandom);
                 next[1] = d_c(urandom);
+                int tempcount = 0;
                 while (!suitabilityCheck(start,next,st)){
-                    count++;
+                    tempcount++;
                     next[0] = d_c(urandom);
                     next[1] = d_c(urandom);
-                    if (double(count)%4==0){
+                    if (tempcount%4==0){
                         try_count++;
                         if (try_count>=25)
                             exit(1);
                     }
                 }
                 st.segment_endpoints.push_back(next);
-                cout<<"\n\n";
                 start[0] = next[0];
                 start[1] = next[1];
             }
             database.push_back(st);
-            for (unsigned k = 0;k<st.segment_endpoints.size();k++){
-                cout<<"("<<st.segment_endpoints[k][0]<<","<<st.segment_endpoints[k][1]<<") ";
-            }
-            cout<<"\nDone with street "<<st.name<<endl;
             st.name.clear();
             st.segment_endpoints.clear();
         }
-        cout<<"\n\nSleeping now\n\n";
+        for (unsigned i=0;i<database.size();i++){
+            cout<<"add \""<<database[i].name<<"\" ";
+            for (unsigned j=0;j<database[i].segment_endpoints.size();j++){
+                cout<<"("<<database[i].segment_endpoints[j][0]<<","<<database[i].segment_endpoints[j][1]<<") ";
+            }
+            cout<<endl;
+        }
+        cout<<"gg"<<endl;
         unsigned sleep_period = d_l(urandom);
         usleep(sleep_period*second);
-        //count++;
-        if (count>2)
-            break;
     }
     return 0;
 }
