@@ -116,8 +116,6 @@ int main(int argc, char** argv){
     int n = 5;
     int l = 5;
     int c = 20;
-    
-    cerr<<"RGEN: Before starting generation of roads"<<endl;
 
     for (int i=0;i<argc;++i){
         if (strcmp(argv[i], "-s") == 0){
@@ -150,7 +148,6 @@ int main(int argc, char** argv){
     string st_name;
     Street st;
     while(!cin.eof()){
-        cerr<<"RGEN: Starting generation of roads"<<endl;
         if (database.size()!=0){
             for (unsigned i=0;i<database.size();i++){
                 cout<<"rm "<<"\""<<database[i].name<<"\""<<endl;
@@ -200,7 +197,6 @@ int main(int argc, char** argv){
         }
         cout<<"gg"<<endl;
         unsigned sleep_period = d_l(urandom);
-        cerr<<"Done generating road. Sleeping now."<<endl;
         usleep(sleep_period*second);
     }
     return 0;
