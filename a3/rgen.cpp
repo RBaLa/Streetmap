@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <list>
 #include <regex>
 #include <string.h>
 #include <random>
@@ -8,19 +9,16 @@
 
 using namespace std;
 
-class database{
-    public:
-        list<string> street_names;
-        list<string>::iterator street_id;
-        
+typedef array<signed int,2> two_d_coord;
+
+struct Street{
+    string name;
+    vector<two_d_coord> segment_endpoints;
 };
 
-class street{
-    public:
-        typedef vector<int> arr;
-        list<arr> segment_endpoints;
-        list<arr>::iterator se_id;
-};
+list<Street> database;
+
+
 
 bool checkCollinearity(vector<int> ls_11,vector<int> ls_12,vector<int> ls_21,vector<int> ls_22){
     bool value = false;
@@ -37,8 +35,9 @@ bool checkCollinearity(vector<int> ls_11,vector<int> ls_12,vector<int> ls_21,vec
     int s2_x = p3_x-p2_x;
     int s1_y = p1_y-p0_y;
     int s2_y = p3_y-p2_y;
-    float det = (-s2_x*s1_y+s1_x*s2_y);
+    int det = (-s2_x*s1_y+s1_x*s2_y);
     if (det==0){
+        
         //check which of the two segments are smaller
         //check if any of the two points of the smaller are on the larger
         //value = true if above condition is fulfilled
@@ -72,16 +71,35 @@ int main(int argc, char** argv){
     uniform_int_distribution<unsigned> d_s(2,s);
     uniform_int_distribution<unsigned> d_n(1,n);
     uniform_int_distribution<unsigned> d_l(5,l);
-    uniform_int_distribution<unsigned> d_c(-c,c);
-    
+    uniform_int_distribution<signed int> d_c(-c,c);
+    uniform_int_distribution<unsigned> alphabet(0,25);
+    uniform_int_distribution<unsigned> name_length(4,8);
     unsigned try_count = 0;
     unsigned second = 1000000;
+    unsigned n_streets,n_segments;
+    two_d_coord start,next;
+    vector<two_d_coord> line_segment;
+    unsigned name_l;
+    char c;
+    string st_name;
     while(!cin.eof()){
-
-        //for s streets:
-        //   get a n value
-        unsigned n_streets = d_n(urandom);
-        //   choose a starting point in [-l,l]x[-l,l] which is not part of any street in database
+        n_streets = d_n(urandom);
+        for (unsigned i=0;i<n_streets;i++){
+            Street st;
+            name_l = name_length(urandom);
+            for (unsigned k=0;k<name_l;k++){
+                c = 'a'+alphabet(urandom);
+                st.name.push_back(c)
+            }
+            st.name.append(" street");
+            start[0] = d_c(urandom);
+            start[1] = d_c(urandom);
+            line_segment.push_back(start);
+            n_segments = d_n(urandom);
+            for (unsigned j=0;j<n_segments;j++){
+                
+            }
+        }
         
         //   if no such point exists, exit(1)
         //   for n segments:
