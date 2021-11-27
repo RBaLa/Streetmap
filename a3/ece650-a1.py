@@ -401,14 +401,12 @@ def main():
     while True:
         user_input = getUserInput(database) #dict
         if user_input=={}:
-            eprint("not reading from rgen")
             pass
         else:
             #From user input, get command
             command = user_input['command']
             if command != "exit":
                 #If add,mod,rm- compute/re-compute edges, vertices
-                eprint("Reading from rgen")
                 if command != "gg":
                     if command != "rm":
                         database[user_input['street_name']] = user_input['coords']
@@ -423,7 +421,6 @@ def main():
                     new_edges = copy.deepcopy(edges)
                     old_vertex_ids = list(vertices.keys())
                     print("V {!r}".format(n_verts),file=sys.stdout)
-                    print("V {!r}".format(n_verts),file=sys.stderr)
                     for i,old_ids in enumerate(edges):
                         for j,ids in enumerate(old_vertex_ids):
                             if old_ids[0]==ids:
@@ -432,8 +429,6 @@ def main():
                                 new_edges[i][1]= j+1
                     print("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}",file=sys.stdout)
-                    eprint("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
-                        for ids,item in enumerate(new_edges)) + "}")
                 
             else:
                 break
