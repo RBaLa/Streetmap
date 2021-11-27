@@ -21,7 +21,8 @@ int main(int argc, char** argv){
         cerr<<"pipe1 write Before dup2:"<<pipe1[WRITE_END]<<endl;
         int dup2check1 = dup2(pipe1[WRITE_END],STDOUT_FILENO);
         cerr<<"dup2 check rgen:"<<dup2check1<<endl;
-        cerr<<"pipe1 write after dup2"<<pipe1[WRITE_END]<<endl;
+        cerr<<"pipe1 write after dup2:"<<pipe1[WRITE_END]<<endl;
+        cerr<<"stdout after dup2:"<<STDOUT_FILENO<<endl;
         close(pipe1[READ_END]);
         close(pipe1[WRITE_END]);
         close(pipe2[READ_END]);
