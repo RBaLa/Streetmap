@@ -12,7 +12,6 @@ int main(int argc, char** argv){
     int pipe1[2],pipe2[2];
     pipe(pipe1);
     pipe(pipe2);
-    int status;
     
     child_rgen = fork();
     if (child_rgen==0){
