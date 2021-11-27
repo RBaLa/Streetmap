@@ -15,7 +15,8 @@ int main(int argc, char** argv){
     
     child_rgen = fork();
     if (child_rgen==0){
-        //dup2(pipe1[1],STDOUT_FILENO);
+        int dup2check1 = dup2(pipe1[1],STDOUT_FILENO);
+        cerr<<"dup2 check rgen:"<<dup2check1<<endl;
         close(pipe1[0]);
         close(pipe1[1]);
         close(pipe2[0]);
@@ -25,10 +26,12 @@ int main(int argc, char** argv){
     else{
         child_a1 = fork();
         if (child_a1==0){
-            dup2(pipe1[0],STDIN_FILENO);
+            int dup2check2 = dup2(pipe1[0],STDIN_FILENO);
+            cerr<<"dup2 check a1 read:"<<dup2check2<<endl;
             close(pipe1[1]);
             close(pipe1[0]);
-            dup2(pipe2[1],STDOUT_FILENO);
+            int dup2check3 = dup2(pipe2[1],STDOUT_FILENO);
+            cerr<<"dup2 check a1 write:"<<dup2check3<<endl;
             close(pipe2[0]);
             close(pipe2[1]);
             execlp("python","python","ece650-a1.py",(char*)NULL);
@@ -36,7 +39,8 @@ int main(int argc, char** argv){
         else{
             child_a2 = fork();
             if (child_a2==0){
-                dup2(pipe2[0],STDIN_FILENO);
+                int dup2check4 = dup2(pipe2[0],STDIN_FILENO);
+                cerr<<"dup2 check a2:"<<dup2check4
                 close(pipe2[1]);
                 close(pipe2[0]);
                 close(pipe1[1]);
