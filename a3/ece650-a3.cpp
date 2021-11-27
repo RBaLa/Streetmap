@@ -31,7 +31,7 @@ int main(int argc, char** argv){
             dup2(pipe2[1],STDOUT_FILENO);
             close(pipe2[0]);
             close(pipe2[1]);
-            execv("./ece650-a1.py",{NULL});
+            execlp("python","python","ece650-a1.py",{NULL});
         }
         else{
             child_a2 = fork();
