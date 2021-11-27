@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
 // Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
 //1. Push source into queue
@@ -64,7 +63,7 @@ int main() {
     
 
     while (!cin.eof()) {
-        cerr<<"A2!"<<endl;
+        cerr<<"A2: Receiving input from A1"<<endl;
         string line;
         char command;
         getline(cin, line);
