@@ -11,6 +11,8 @@ using namespace std;
 
 typedef array<signed int,2> two_d_coord;
 
+cout<<"RGEN!"<<endl;
+
 struct Street{
     string name;
     vector<two_d_coord> segment_endpoints;
