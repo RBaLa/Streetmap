@@ -41,6 +41,8 @@ import sys
 import copy
 import math
 
+print("A1!",file=sys.stderr)
+
 def eprint(arg):
     """
     Prints string in 'arg' to standard error.
