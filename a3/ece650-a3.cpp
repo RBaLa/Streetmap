@@ -44,26 +44,19 @@ int main(int argc, char** argv){
                 execv("./ece650-a2",{NULL});
             }
             else{
-                child_read = fork();
-                if (child_read==0){
-                    dup2(pipe2[1],STDOUT_FILENO);
-                    close(pipe2[0]);
-                    close(pipe2[1]);
-                    close(pipe1[0]);
-                    close(pipe1[1]);
-                    execv("./readinput",{NULL});
+                dup2(pipe2[1],STDOUT_FILENO);
+                close(pipe1[0]);
+                close(pipe1[1]);
+                close(pipe2[0]);
+                close(pipe2[1]);
+                string line;
+                while (!cin.eof()){
+                    getline(cin,line);
+                    cout<<line<<endl;
+                    if (cin.eof())
+                        break;
                 }
-                else{
-                    close(pipe1[0]);
-                    close(pipe1[1]);
-                    close(pipe2[0]);
-                    close(pipe2[1]);
-                    string line;
-                    while (true){
-                        if (cin.eof())
-                            break;
-                    }
-                    kill(-1,SIGTERM);
+                kill(-1,SIGKILL);
                 }
             }
         }
