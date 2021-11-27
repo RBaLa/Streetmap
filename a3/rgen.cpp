@@ -11,7 +11,7 @@ using namespace std;
 
 typedef array<signed int,2> two_d_coord;
 
-cout<<"RGEN!"<<endl;
+cerr<<"RGEN!"<<endl;
 
 struct Street{
     string name;
