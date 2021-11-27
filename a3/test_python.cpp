@@ -4,6 +4,6 @@
 using namespace std;
 
 int main(){
-    execv("./rgen,NULL");
+    execv("./rgen",NULL);
     return 0;
 }
