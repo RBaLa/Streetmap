@@ -51,7 +51,7 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
 
 int main() {
     
-    cerr<<"A2!"<<endl;
+    
     regex ex_1("V\\s(\\d+)");
     regex ex_2("\\<(\\d+),(\\d+)\\>");
     sregex_iterator End;
@@ -61,8 +61,10 @@ int main() {
     unsigned destination = 0;
     vector<unsigned> edgeValues;
 
-    while (!cin.eof()) {
+    
 
+    while (!cin.eof()) {
+        cerr<<"A2!"<<endl;
         string line;
         char command;
         getline(cin, line);
