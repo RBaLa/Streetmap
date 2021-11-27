@@ -33,7 +33,7 @@ int main(int argc, char** argv){
             dup2(pipes[3],STDOUT_FILENO);
             close(pipes[2]);
             close(pipes[3]);
-            execl("./ece650-a1");
+            execvp("./ece650-a1",{NULL});
         }
         else{
             child_a2 = fork();
@@ -43,7 +43,7 @@ int main(int argc, char** argv){
                 close(pipes[2]);
                 close(pipes[1]);
                 close(pipes[0]);
-                execl("./ece650-a2");
+                execvp("./ece650-a2",{NULL});
             }
             else{
                 child_read = fork();
@@ -53,7 +53,7 @@ int main(int argc, char** argv){
                     close(pipes[1]);
                     close(pipes[0]);
                     close(pipes[3]);
-                    execl("./readinput");
+                    execvp("./readinput",{NULL});
                 }
                 else{
                     close(pipes[0]);
