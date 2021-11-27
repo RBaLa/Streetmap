@@ -11,8 +11,6 @@ using namespace std;
 
 typedef array<signed int,2> two_d_coord;
 
-cerr<<"RGEN!"<<endl;
-
 struct Street{
     string name;
     vector<two_d_coord> segment_endpoints;
@@ -133,6 +131,9 @@ int main(int argc, char** argv){
             c = stoi(argv[i+1]);
         }
     }
+
+    cerr<<"RGEN!"<<endl;
+    
     random_device urandom("/dev/urandom");
     uniform_int_distribution<unsigned> d_s(2,s);
     uniform_int_distribution<unsigned> d_n(1,n);
