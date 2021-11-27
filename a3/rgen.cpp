@@ -145,7 +145,6 @@ int main(int argc, char** argv){
     unsigned name_l;
     char ch;
     string st_name;
-    int count = 0;
     Street st;
     while(!cin.eof()){
         if (database.size()!=0){
