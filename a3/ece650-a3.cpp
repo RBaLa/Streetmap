@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int argc, char** argv){
     
-    pid_t child_rgen,child_a1,child_a2,child_read;
+    pid_t child_rgen,child_a1,child_a2;
     int pipe1[2],pipe2[2];
     pipe(pipe1);
     pipe(pipe2);
@@ -56,7 +56,9 @@ int main(int argc, char** argv){
                     if (cin.eof())
                         break;
                 }
-                kill(-1,SIGKILL);
+                kill(child_a1,SIGTERM);
+                kill(child_a2,SIGTERM);
+                kill(child_rgen,SIGTERM);
             }
         }
     }
