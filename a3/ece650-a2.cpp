@@ -64,6 +64,7 @@ int main() {
         cerr<<"A2: Ready to receive input."<<endl;
         char command;
         cin>>command;
+        cerr<<"Got command:"<<command<<endl;
         if (command=='\n'){
             cin.ignore();
             continue;
