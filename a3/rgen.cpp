@@ -209,7 +209,7 @@ int main(int argc, char** argv){
     auto t2 = high_resolution_clock::now();
     while(!cin.eof()){
         if (database.size()!=0){
-            cout<<"rm \"all\""<<endl
+            cout<<"rm \"all\""<<endl;
             database.clear();
         }
         n_streets = d_n(urandom);
