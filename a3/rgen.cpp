@@ -196,7 +196,7 @@ int main(int argc, char** argv){
         }
         cout<<"gg"<<endl;
         unsigned sleep_period = d_l(urandom);
-        sleep(sleep_period+5);
+        sleep(sleep_period);
     }
     return 0;
 }
