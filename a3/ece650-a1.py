@@ -42,20 +42,6 @@ import copy
 import math
 import time
 
-class Unbuffered(object):
-   def __init__(self, stream):
-       self.stream = stream
-   def write(self, data):
-       self.stream.write(data)
-       self.stream.flush()
-   def writelines(self, datas):
-       self.stream.writelines(datas)
-       self.stream.flush()
-   def __getattr__(self, attr):
-       return getattr(self.stream, attr)
-
-#sys.stdout = Unbuffered(sys.stdout)
-
 def eprint(arg):
     """
     Prints string in 'arg' to standard error.
@@ -427,7 +413,7 @@ def main():
                 new_edges = copy.deepcopy(edges)
                 old_vertex_ids = list(vertices.keys())
                 sys.stdout.write("V {!r}\n".format(n_verts))
-                #eprint("<<<A1: sent V to A2.>>>")
+                sys.stdout.flush()
                 for i,old_ids in enumerate(edges):
                     for j,ids in enumerate(old_vertex_ids):
                         if old_ids[0]==ids:
@@ -436,7 +422,6 @@ def main():
                             new_edges[i][1]= j+1
                 sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                     for ids,item in enumerate(new_edges)) + "}\n")
-                #eprint("<<<A1: sent E to A2.>>>")
                 time.sleep(1)
                 sys.stdout.flush()
                 time.sleep(1)

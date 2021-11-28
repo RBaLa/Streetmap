@@ -4,14 +4,8 @@
 #include <regex>
 #include <climits>
 #include <queue>
-#include <chrono>
 
 using namespace std;
-
-using chrono::high_resolution_clock;
-using chrono::duration_cast;
-using chrono::duration;
-using chrono::milliseconds;
 
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
 // Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
@@ -55,12 +49,7 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
 }
 
 int main() {
-
-    auto t1 = high_resolution_clock::now();
-    auto t2 = high_resolution_clock::now();
-
-    regex ex_1("V\\s(\\d+)");
-    regex ex_2("\\<(\\d+),(\\d+)\\>");
+    regex ex("\\<(\\d+),(\\d+)\\>");
     sregex_iterator End;
     unsigned nVertices = 0;
     unsigned nEdges = 0;
@@ -89,7 +78,7 @@ int main() {
         if (command=='E'){
             int temp1, temp2;
             int E_flag = 0;
-            sregex_iterator iter(line.begin(),line.end(),ex_2);
+            sregex_iterator iter(line.begin(),line.end(),ex);
             while (iter!=End){
                 temp1 = stoi((*iter)[1]);
                 temp2 = stoi((*iter)[2]);
@@ -103,29 +92,23 @@ int main() {
                 }
             }
             if (E_flag==1){
-                cerr<<"Error: vertex specified beyond range"<<endl;
+                cerr<<"Error: vertex specified beyond range.\n";
                 continue;
             }
             nEdges = edgeValues.size()/2;
-            t2 = high_resolution_clock::now();
-            auto ms_int = duration_cast<milliseconds>(t2 - t1);
-            cout<<"A2: got V, E from A1. Time since last loop:"<<ms_int.count() << "ms"<<endl;
-            t1 = high_resolution_clock::now();
-            
             if (nEdges>1){
                 cout<<"E {";
                 for (unsigned i=0;i<nEdges-1;i++){
                     cout<<"<"<<edgeValues[2*i]<<","<<edgeValues[2*i+1]<<">,";
                 }
-                cout<<"<"<<edgeValues[2*(nEdges-1)]<<","<<edgeValues[2*(nEdges-1)+1]<<">}"<<endl;
+                cout<<"<"<<edgeValues[2*(nEdges-1)]<<","<<edgeValues[2*(nEdges-1)+1]<<">}\n";
             }
             else if (nEdges==1){
-                cout<<"E {<"<<edgeValues[0]<<","<<edgeValues[1]<<">}"<<endl;
+                cout<<"E {<"<<edgeValues[0]<<","<<edgeValues[1]<<">}\n";
             }
             else{
-                cout<<"E {}"<<endl;
+                cout<<"E {}\n";
             }
-            
         }
         if (command=='s'){
             istringstream input(line);
@@ -134,10 +117,10 @@ int main() {
                 input>>destination;
             }
             if ((source>nVertices)||(destination>nVertices)){
-                cerr<<"Error: specified node(s) not in graph"<<endl;
+                cerr<<"Error: specified node(s) not in graph.\n";
             }
             else if ((source<=0)||(destination<=0)){
-                cerr<<"Error: specified node value(s) out of range."<<endl;
+                cerr<<"Error: specified node value(s) out of range.\n";
             }
             else{
                 unsigned edges1[nEdges], edges2[nEdges];
@@ -145,7 +128,6 @@ int main() {
                     edges1[i] = edgeValues[2*i];
                     edges2[i] = edgeValues[2*i+1];
                 }
-
                 vector<unsigned> neighborArray[nVertices];
                 for (unsigned i=0; i<nVertices; i++){
                     for (unsigned j=0; j<nEdges; j++){
@@ -160,7 +142,7 @@ int main() {
                 unsigned distance[nVertices];
                 int prev[nVertices];
                 if (bFSearch(neighborArray,source,destination,nVertices,distance,prev)==false){
-                    cerr<<"Error: No path exists between specified nodes."<<endl;
+                    cerr<<"Error: No path exists between specified nodes.\n";
                 }
                 else{
                     vector<unsigned> path;
