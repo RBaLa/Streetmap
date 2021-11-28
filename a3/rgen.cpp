@@ -94,8 +94,8 @@ bool selfIntersection(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two_
     int s2_y = p3_y-p2_y;
     int det = (-s2_x*s1_y+s1_x*s2_y);
     if (det!=0){
-        double s = double(-s1_y*(p0_x-p2_x)+s1_x*(p0_y-p2_y))/double(det)
-        double t = double(s2_x*(p0_y-p2_y)-s2_y*(p0_x-p2_x))/double(det)
+        double s = double(-s1_y*(p0_x-p2_x)+s1_x*(p0_y-p2_y))/double(det);
+        double t = double(s2_x*(p0_y-p2_y)-s2_y*(p0_x-p2_x))/double(det);
         if (s>=0 and s<=1 and t>=0 and t<=1){
             value = true;
         }
