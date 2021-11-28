@@ -395,9 +395,7 @@ def main():
     vertices = dict()
     edges = list()
     while True:
-        eprint("<<<A1: waiting for input from RGEN.>>>\n")
         user_input = getUserInput(database) #dict
-        eprint("<<<A1: got input from RGEN.>>>\n")
         #From user input, get command
         command = user_input['command']
         if command != "exit":
@@ -424,9 +422,8 @@ def main():
                             new_edges[i][1]= j+1
                 sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                     for ids,item in enumerate(new_edges)) + "}\n")
-                time.sleep(0.05)
+                time.sleep(0.03)
                 sys.stdout.flush()
-                eprint("<<<A1: sent all commands to A2.>>>\n")
         else:
             break
     sys.exit(0)
