@@ -413,6 +413,7 @@ def main():
     vertices = dict()
     edges = list()
     while True:
+        eprint("<<<A1: getting input from RGEN.>>>")
         user_input = getUserInput(database) #dict
         #From user input, get command
         command = user_input['command']
