@@ -77,7 +77,7 @@ bool checkCollinearity(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two
     return value;
 }
 
-cool selfIntersection(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two_d_coord ls_22){
+bool selfIntersection(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two_d_coord ls_22){
     bool value = false;
     int p0_x = ls_11[0];
     int p0_y = ls_11[1];
