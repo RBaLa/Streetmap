@@ -141,6 +141,7 @@ int main(int argc, char** argv){
     uniform_int_distribution<unsigned> name_length(4,8);
     unsigned try_count = 0;
     unsigned n_streets,n_segments;
+    unsigned sleep_period;
     two_d_coord start,next;
     unsigned name_l;
     char ch;
@@ -175,10 +176,13 @@ int main(int argc, char** argv){
                     next[1] = d_c(urandom);
                     if (tempcount%4==0){
                         try_count++;
-                        if (try_count>=25)
+                        if (try_count>=25){
+                            cerr<<"Error: failed to generate valid input for 25 continuous attempts"<<endl;
                             exit(1);
+                        }
                     }
                 }
+                try_count = 0;
                 st.segment_endpoints.push_back(next);
                 start[0] = next[0];
                 start[1] = next[1];
@@ -195,7 +199,7 @@ int main(int argc, char** argv){
             cout<<endl;
         }
         cout<<"gg"<<endl;
-        unsigned sleep_period = d_l(urandom);
+        sleep_period = d_l(urandom);
         sleep(sleep_period);
     }
     return 0;
