@@ -424,11 +424,11 @@ def main():
                     database[user_input['street_name']] = user_input['coords']
                 else:
                     del database[user_input['street_name']]
-                
+                #lsegs = getLineSegments(database) #dict
+                #vertices,edges = getGraph(lsegs) #dict,list
+            else:
                 lsegs = getLineSegments(database) #dict
                 vertices,edges = getGraph(lsegs) #dict,list
-            
-            else:
                 n_verts = len(vertices)
                 new_edges = copy.deepcopy(edges)
                 old_vertex_ids = list(vertices.keys())
