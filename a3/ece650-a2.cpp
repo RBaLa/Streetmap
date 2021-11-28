@@ -60,10 +60,13 @@ int main() {
     unsigned destination = 0;
     vector<unsigned> edgeValues;
     string line;
-    while (getline(cin, line)) {
-        cerr<<"A2: Receiving input from A1: ";
+    while (!cin.eof()) {
+        for (string line2; getline(cin, line2);) {
+            cerr << line2 << endl;
+        }
+        //cerr<<"A2: Receiving input from A1: ";
         char command;
-        cerr<<line<<endl;
+        //cerr<<line<<endl;
         command = line[0];
         if (command=='V'){
             cerr<<"Executing command==V"<<endl;
