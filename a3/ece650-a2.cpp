@@ -84,7 +84,7 @@ int main() {
             }
             istringstream vinput(line);
             vinput>>nVertices;
-            //cout<<"V "<<nVertices<<endl;
+            cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
             int temp1, temp2;
@@ -111,7 +111,7 @@ int main() {
             auto ms_int = duration_cast<milliseconds>(t2 - t1);
             cout<<"A2: got V, E from A1. Time since last loop:"<<ms_int.count() << "ms"<<endl;
             t1 = high_resolution_clock::now();
-            /*
+            
             if (nEdges>1){
                 cout<<"E {";
                 for (unsigned i=0;i<nEdges-1;i++){
@@ -125,7 +125,7 @@ int main() {
             else{
                 cout<<"E {}"<<endl;
             }
-            */
+            
         }
         if (command=='s'){
             istringstream input(line);
