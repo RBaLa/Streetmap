@@ -62,7 +62,7 @@ int main() {
     string line;
     while (!cin.eof()) {
         for (string line2; getline(cin, line2);) {
-            cerr << line << endl;
+            cerr << line2 << endl;
         }
         //cerr<<"A2: Receiving input from A1: ";
         char command;
