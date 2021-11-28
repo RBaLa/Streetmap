@@ -62,8 +62,15 @@ int main() {
     string line;
     while (!cin.eof()) {
         char command;
-        getline(cin,line);
-        command = line[0];
+        cin>>command;
+        if (command=='\n'){
+            cin.ignore();
+            continue;
+        }
+        else{
+            getline(cin,line);
+            line.insert(0,1,command);
+        }
         if (command=='V'){
             if (edgeValues.size()>0){
                 edgeValues.clear();
