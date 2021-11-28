@@ -96,7 +96,7 @@ def getUserInput(Data):
         uin = sys.stdin.readline()
         #Regex patterns:
         pattern1 = "(add|mod)\s\"([a-zA-Z\s]+)\"\s((\(-?\d*,-?\d*\) ?){2,})"
-        pattern2 = "(rm)\s\"([a-zA-Z\s]+)\""
+        pattern2 = "(rm)\s\"([a-zA-Z]+)\""
         pattern3 = "\"( +[a-zA-Z\s]*)\""
         pattern4 = "\)\("
         #Matching to ensure proper instruction formatting:
@@ -110,12 +110,7 @@ def getUserInput(Data):
             parsed_input['command'] = 'gg'
         #If rm
         elif matchobj2:
-            street_name = ''.join(matchobj2.group(2).split()).lower()
-            if street_name in data:
-                parsed_input['command'] = matchobj2.group(1)
-                parsed_input['street_name'] = street_name
-            else:
-                eprint("Error: 'rm' specified for street that does not exist.\n")
+            parsed_input['command'] = matchobj2.group(1)
         #If mod or add
         elif matchobj1 and not matchobj3 and not matchobj4: 
             street_name = ''.join(matchobj1.group(2).split()).lower()
@@ -423,7 +418,7 @@ def main():
                 if command != "rm":
                     database[user_input['street_name']] = user_input['coords']
                 else:
-                    del database[user_input['street_name']]
+                    database.clear()
             #If gg-
             else:
                 lsegs = getLineSegments(database) #dict
