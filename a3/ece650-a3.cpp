@@ -9,6 +9,21 @@
 
 using namespace std;
 
+int readinput(int& pipefd[2]){
+    dup2(pipefd[WRITE_END],STDOUT_FILENO);
+    close(pipefd[READ_END]);
+    close(pipefd[WRITE_END]);
+    string line;
+    while (!cin.eof()){
+        getline(cin,line);
+        if (line.size()>1)
+            cout<<line<<endl;
+        if (cin.eof())
+            break;
+    }
+    return 0;
+}
+
 int main(int argc, char** argv){
     
     pid_t child_rgen,child_a1,child_a2;
@@ -47,19 +62,7 @@ int main(int argc, char** argv){
                 execlp("./ece650-a2",NULL);
             }
             else{
-                dup2(pipe2[WRITE_END],STDOUT_FILENO);
-                close(pipe1[READ_END]);
-                close(pipe1[WRITE_END]);
-                close(pipe2[READ_END]);
-                close(pipe2[WRITE_END]);
-                string line;
-                while (!cin.eof()){
-                    getline(cin,line);
-                    if (line.size()>1)
-                        cout<<line<<endl;
-                    if (cin.eof())
-                        break;
-                }
+                int wait_for_eof = readinput(this->pipe2);
                 kill(child_a1,SIGTERM);
                 kill(child_a2,SIGTERM);
                 kill(child_rgen,SIGTERM);
