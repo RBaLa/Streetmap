@@ -33,7 +33,7 @@ int main(int argc, char** argv){
     
     child_rgen = fork();
     if (child_rgen==0){
-        //int dup2check1 = dup2(pipe1[WRITE_END],STDOUT_FILENO);
+        dup2(pipe1[WRITE_END],STDOUT_FILENO);
         close(pipe1[READ_END]);
         close(pipe1[WRITE_END]);
         close(pipe2[READ_END]);
@@ -43,10 +43,10 @@ int main(int argc, char** argv){
     else{
         child_a1 = fork();
         if (child_a1==0){
-            int dup2check2 = dup2(pipe1[READ_END],STDIN_FILENO);
+            dup2(pipe1[READ_END],STDIN_FILENO);
             close(pipe1[WRITE_END]);
             close(pipe1[READ_END]);
-            int dup2check3 = dup2(pipe2[WRITE_END],STDOUT_FILENO);
+            //dup2(pipe2[WRITE_END],STDOUT_FILENO);
             close(pipe2[READ_END]);
             close(pipe2[WRITE_END]);
             execlp("python","python","ece650-a1.py",(char*)NULL);
