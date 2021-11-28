@@ -41,6 +41,20 @@ import sys
 import copy
 import math
 
+class Unbuffered(object):
+   def __init__(self, stream):
+       self.stream = stream
+   def write(self, data):
+       self.stream.write(data)
+       self.stream.flush()
+   def writelines(self, datas):
+       self.stream.writelines(datas)
+       self.stream.flush()
+   def __getattr__(self, attr):
+       return getattr(self.stream, attr)
+
+sys.stdout = Unbuffered(sys.stdout)
+
 def eprint(arg):
     """
     Prints string in 'arg' to standard error.
@@ -420,15 +434,20 @@ def main():
                     n_verts = len(vertices)
                     new_edges = copy.deepcopy(edges)
                     old_vertex_ids = list(vertices.keys())
-                    print("V {!r}".format(n_verts),file=sys.stdout,end="\n",flush=True)
+                    #print("V {!r}".format(n_verts),file=sys.stdout,end="\n",flush=True)
+                    #sys.stdout.flush()
+                    sys.stdout.write("V {!r}".format(n_verts))
                     for i,old_ids in enumerate(edges):
                         for j,ids in enumerate(old_vertex_ids):
                             if old_ids[0]==ids:
                                 new_edges[i][0]= j+1
                             if old_ids[1]==ids:
                                 new_edges[i][1]= j+1
-                    print("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
-                        for ids,item in enumerate(new_edges)) + "}",file=sys.stdout,end="\n",flush=True)
+                    #print("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
+                    #    for ids,item in enumerate(new_edges)) + "}",file=sys.stdout,end="\n")
+                    #sys.stdout.flush()
+                    sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
+                        for ids,item in enumerate(new_edges)) + "}")
             else:
                 break
     sys.exit(0)
