@@ -63,10 +63,11 @@ int main() {
     
 
     while (!cin.eof()) {
-        cerr<<"A2: Receiving input from A1"<<endl;
+        cerr<<"A2: Receiving input from A1: ";
         string line;
         char command;
         getline(cin, line);
+        cerr<<line<<endl;
         command = line[0];
         if (command=='V'){
             cerr<<"Executing command==V"<<endl;
