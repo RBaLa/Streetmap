@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int readinput(int& pipefd[2]){
+int readinput(int& pipefd){
     dup2(pipefd[WRITE_END],STDOUT_FILENO);
     close(pipefd[READ_END]);
     close(pipefd[WRITE_END]);
