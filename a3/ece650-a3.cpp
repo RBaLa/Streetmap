@@ -28,6 +28,7 @@ int main(int argc, char** argv){
     
     pid_t child_rgen,child_a1,child_a2;
     int pipe1[2],pipe2[2];
+    int status;
     pipe(pipe1);
     pipe(pipe2);
     
@@ -62,10 +63,20 @@ int main(int argc, char** argv){
                 execlp("./ece650-a2",NULL);
             }
             else{
-                int wait_for_eof = readinput(pipe2[READ_END],pipe2[WRITE_END]);
-                kill(child_a1,SIGTERM);
-                kill(child_a2,SIGTERM);
-                kill(child_rgen,SIGTERM);
+                int child_read = fork();
+                if (child_read==0){
+                    return readinput(pipe2[READ_END],pipe2[WRITE_END]);
+                }
+                else{
+                    close(pipe2[WRITE_END]);
+                    close(pipe2[READ_END]);
+                    close(pipe1[WRITE_END]);
+                    close(pipe1[READ_END]);
+                    waitpid(child_read,&status,0);
+                    kill(child_a1,SIGTERM);
+                    kill(child_a2,SIGTERM);
+                    kill(child_rgen,SIGTERM);
+                }
             }
         }
     }
