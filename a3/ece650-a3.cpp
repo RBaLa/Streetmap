@@ -33,7 +33,7 @@ int main(int argc, char** argv){
     
     child_rgen = fork();
     if (child_rgen==0){
-        int dup2check1 = dup2(pipe1[WRITE_END],STDOUT_FILENO);
+        //int dup2check1 = dup2(pipe1[WRITE_END],STDOUT_FILENO);
         close(pipe1[READ_END]);
         close(pipe1[WRITE_END]);
         close(pipe2[READ_END]);
