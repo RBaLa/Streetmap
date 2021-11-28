@@ -436,8 +436,6 @@ def main():
                     new_edges = copy.deepcopy(edges)
                     old_vertex_ids = list(vertices.keys())
                     #print("V {!r}".format(n_verts),file=sys.stdout,end="\n",flush=True)
-                    sys.stdout.flush()
-                    time.sleep(0.5)
                     sys.stdout.writelines("V {!r}\n".format(n_verts))
                     for i,old_ids in enumerate(edges):
                         for j,ids in enumerate(old_vertex_ids):
@@ -450,6 +448,8 @@ def main():
                     #sys.stdout.flush()
                     sys.stdout.writelines("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}\n")
+                    time.sleep(0.5)
+                    sys.stdout.flush()
             else:
                 break
     sys.exit(0)
