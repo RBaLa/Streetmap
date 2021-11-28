@@ -437,7 +437,7 @@ def main():
                     old_vertex_ids = list(vertices.keys())
                     #print("V {!r}".format(n_verts),file=sys.stdout,end="\n",flush=True)
                     sys.stdout.write("V {!r}\n".format(n_verts))
-                    time.sleep(0.1)
+                    time.sleep(1)
                     for i,old_ids in enumerate(edges):
                         for j,ids in enumerate(old_vertex_ids):
                             if old_ids[0]==ids:
@@ -448,7 +448,7 @@ def main():
                     #    for ids,item in enumerate(new_edges)) + "}",file=sys.stdout,end="\n")
                     sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}\n")
-                    time.sleep(1)
+                    time.sleep(2)
                     sys.stdout.flush()
                     time.sleep(1)
             else:
