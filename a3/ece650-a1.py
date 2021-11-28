@@ -40,6 +40,7 @@ import re
 import sys
 import copy
 import math
+import time
 
 class Unbuffered(object):
    def __init__(self, stream):
@@ -436,6 +437,7 @@ def main():
                     old_vertex_ids = list(vertices.keys())
                     #print("V {!r}".format(n_verts),file=sys.stdout,end="\n",flush=True)
                     sys.stdout.flush()
+                    time.sleep(0.5)
                     sys.stdout.writelines("V {!r}\n".format(n_verts))
                     for i,old_ids in enumerate(edges):
                         for j,ids in enumerate(old_vertex_ids):
