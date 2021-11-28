@@ -206,7 +206,7 @@ int main(int argc, char** argv){
             cout<<endl;
         }
         cout<<"gg\n";
-        cerr<<"";
+        cerr<<"this is to keep rgen honest before sleep\n";
         /*t2 = high_resolution_clock::now();
         auto ms_int = duration_cast<milliseconds>(t2 - t1);
         cerr<<"---RGEN: sent commands to A1. Time taken: "<<ms_int.count()<<"ms---\n";
