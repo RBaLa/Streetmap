@@ -77,6 +77,32 @@ bool checkCollinearity(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two
     return value;
 }
 
+bool selfIntersection(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two_d_coord ls_22){
+    bool value = false;
+    int p0_x = ls_11[0];
+    int p0_y = ls_11[1];
+    int p1_x = ls_12[0];
+    int p1_y = ls_12[1];
+    int p2_x = ls_21[0];
+    int p2_y = ls_21[1];
+    int p3_x = ls_22[0];
+    int p3_y = ls_22[1];
+
+    int s1_x = p1_x-p0_x;
+    int s2_x = p3_x-p2_x;
+    int s1_y = p1_y-p0_y;
+    int s2_y = p3_y-p2_y;
+    int det = (-s2_x*s1_y+s1_x*s2_y);
+    if (det!=0){
+        double s = double(-s1_y*(p0_x-p2_x)+s1_x*(p0_y-p2_y))/double(det)
+        double t = double(s2_x*(p0_y-p2_y)-s2_y*(p0_x-p2_x))/double(det)
+        if (s>=0 and s<=1 and t>=0 and t<=1){
+            value = true;
+        }
+    }
+    return value;
+}
+
 bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
     bool value = false;
     if (database.size()==0){
@@ -87,8 +113,14 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
         }
         else{
             for (unsigned i=0;i<st.segment_endpoints.size()-1;i++){
-                if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1]))
+                if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
                     break;
+                }
+                if (selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
+                    break;
+                }
                 if (i==st.segment_endpoints.size()-2)
                     value = true;
             }
@@ -111,6 +143,27 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
             if (j==database.size()-1)
                 value = true;
         }
+        if (st.segment_endpoints.size()==1){
+            if ((a[0]==b[0]&&a[1]==b[1])){
+                value=false;
+            }
+        }
+        else{
+            for (unsigned i=0;i<st.segment_endpoints.size()-1;i++){
+                if (value==false)
+                    break;
+                if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
+                    break;
+                }
+                if (selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
+                    break;
+                }
+                if (i==st.segment_endpoints.size()-2)
+                    value = true;
+            }
+        }   
     }
     return value;
 }
@@ -156,9 +209,7 @@ int main(int argc, char** argv){
     auto t2 = high_resolution_clock::now();
     while(!cin.eof()){
         if (database.size()!=0){
-            for (unsigned i=0;i<database.size();i++){
-                cout<<"rm "<<"\""<<database[i].name<<"\""<<endl;
-            }
+            cout<<"rm \"all\""<<endl
             database.clear();
         }
         n_streets = d_n(urandom);
@@ -176,17 +227,13 @@ int main(int argc, char** argv){
             for (unsigned j=0;j<n_segments;j++){
                 next[0] = d_c(urandom);
                 next[1] = d_c(urandom);
-                int tempcount = 0;
                 while (!suitabilityCheck(start,next,st)){
-                    tempcount++;
+                    try_count++;
                     next[0] = d_c(urandom);
                     next[1] = d_c(urandom);
-                    if (tempcount%4==0){
-                        try_count++;
-                        if (try_count>=25){
-                            cerr<<"Error: failed to generate valid input for 25 continuous attempts"<<endl;
-                            exit(1);
-                        }
+                    if (try_count==25){
+                        cerr<<"Error: failed to generate valid input for 25 continuous attempts"<<endl;
+                        exit(1);
                     }
                 }
                 try_count = 0;
@@ -206,7 +253,6 @@ int main(int argc, char** argv){
             cout<<endl;
         }
         cout<<"gg\n";
-        cerr<<"this is to keep rgen honest before sleep\n";
         /*t2 = high_resolution_clock::now();
         auto ms_int = duration_cast<milliseconds>(t2 - t1);
         cerr<<"---RGEN: sent commands to A1. Time taken: "<<ms_int.count()<<"ms---\n";

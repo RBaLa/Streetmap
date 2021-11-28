@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <regex>
+#include <string.h>
 
 #define READ_END 0
 #define WRITE_END 1
@@ -26,6 +28,39 @@ int readinput(int& pipe2_read,int& pipe2_write){
 
 int main(int argc, char** argv){
     
+    unsigned s,n,l,c;
+
+    for (int i=0;i<argc;++i){
+        if (strcmp(argv[i], "-s") == 0){
+            s = stoi(argv[i+1]);
+            if (s<2){
+                cerr<<"Error: -s value in command line arg < 2"<<endl;
+                exit(1);
+            }
+        }
+        if (strcmp(argv[i], "-n") == 0){
+            n = stoi(argv[i+1]);
+            if (n<1){
+                cerr<<"Error: -n value in command line arg < 1"<<endl;
+                exit(1);
+            }
+        }
+        if (strcmp(argv[i], "-l") == 0){
+            l = stoi(argv[i+1]);
+            if (l<5){
+                cerr<<"Error: -l value in command line arg < 5"<<endl;
+                exit(1);
+            }
+        }
+        if (strcmp(argv[i], "-c") == 0){
+            c = stoi(argv[i+1]);
+            if (c<1){
+                cerr<<"Error: -c value in command line arg < 1"<<endl;
+                exit(1);
+            }
+        }
+    }
+
     pid_t child_rgen,child_a1,child_a2;
     int pipe1[2],pipe2[2];
     int status;
