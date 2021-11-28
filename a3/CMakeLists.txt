@@ -16,4 +16,4 @@ add_executable(rgen rgen.cpp)
 
 # install binaries
 install(PROGRAMS ece650-a1.py DESTINATION bin)
-install(TARGETS ece650-a2 ece650-a3 RUNTIME DESTINATION bin)
+install(TARGETS ece650-a2 ece650-a3 rgen RUNTIME DESTINATION bin)
