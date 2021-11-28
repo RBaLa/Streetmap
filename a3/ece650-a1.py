@@ -429,7 +429,6 @@ def main():
                                 new_edges[i][1]= j+1
                     print("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}",file=sys.stdout)
-                    eprint("A1:Sending to A2")
             else:
                 break
     sys.exit(0)
