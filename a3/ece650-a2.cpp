@@ -61,15 +61,12 @@ int main() {
     vector<unsigned> edgeValues;
     string line;
     while (!cin.eof()) {
-        for (string line2; getline(cin, line2);) {
-            cerr << line2 << endl;
-        }
-        //cerr<<"A2: Receiving input from A1: ";
+        cout<<"A2: Receiving input from A1: ";
         char command;
-        //cerr<<line<<endl;
+        getline(cin,line);
         command = line[0];
         if (command=='V'){
-            cerr<<"Executing command==V"<<endl;
+            cout<<"Executing command==V"<<endl;
             if (edgeValues.size()>0){
                 edgeValues.clear();
             }
@@ -80,7 +77,7 @@ int main() {
             cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
-            cerr<<"Executing command==E"<<endl;
+            cout<<"Executing command==E"<<endl;
             int temp1, temp2;
             int E_flag = 0;
             sregex_iterator iter(line.begin(),line.end(),ex_2);
