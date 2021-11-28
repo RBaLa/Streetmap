@@ -199,7 +199,7 @@ int main(int argc, char** argv){
             cout<<endl;
         }
         cout<<"gg"<<endl;
-        sleep_period = d_l(urandom)+3;
+        sleep_period = d_l(urandom);
         sleep(sleep_period);
     }
     return 0;

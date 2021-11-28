@@ -54,7 +54,7 @@ class Unbuffered(object):
    def __getattr__(self, attr):
        return getattr(self.stream, attr)
 
-#sys.stdout = Unbuffered(sys.stdout)
+sys.stdout = Unbuffered(sys.stdout)
 
 def eprint(arg):
     """
@@ -435,19 +435,13 @@ def main():
                     n_verts = len(vertices)
                     new_edges = copy.deepcopy(edges)
                     old_vertex_ids = list(vertices.keys())
-                    eprint("A1: writing V to A2.\n")
-                    #print("V {!r}".format(n_verts),file=sys.stdout,end="\n",flush=True)
                     sys.stdout.write("V {!r}\n".format(n_verts))
-                    time.sleep(1)
                     for i,old_ids in enumerate(edges):
                         for j,ids in enumerate(old_vertex_ids):
                             if old_ids[0]==ids:
                                 new_edges[i][0]= j+1
                             if old_ids[1]==ids:
                                 new_edges[i][1]= j+1
-                    #print("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
-                    #    for ids,item in enumerate(new_edges)) + "}",file=sys.stdout,end="\n")
-                    eprint("A1: writing E to A2.\n")
                     sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}\n")
                     time.sleep(2)
