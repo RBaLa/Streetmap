@@ -54,7 +54,7 @@ int main(int argc, char** argv){
                 close(pipe2[WRITE_END]);
                 string line;
                 while (!cin.eof()){
-                    getline(cin,line)
+                    getline(cin,line);
                     if (line.size()>1)
                         cout<<line<<endl;
                     if (cin.eof())
