@@ -329,6 +329,7 @@ def getGraph(linesegs):
     keys2 = list()
     keys1 = list(lineSegs.keys())
     count = 0
+    eprint("A1: getting graph")
     for v in lineSegs.values():
         keys2.append(list(v.keys()))
     for i in range(len(keys1)-1):
@@ -435,6 +436,7 @@ def main():
                     n_verts = len(vertices)
                     new_edges = copy.deepcopy(edges)
                     old_vertex_ids = list(vertices.keys())
+                    eprint("A1: sending V to A2.")
                     sys.stdout.write("V {!r}\n".format(n_verts))
                     for i,old_ids in enumerate(edges):
                         for j,ids in enumerate(old_vertex_ids):
@@ -442,11 +444,13 @@ def main():
                                 new_edges[i][0]= j+1
                             if old_ids[1]==ids:
                                 new_edges[i][1]= j+1
+                    eprint("A1: sending E to A2.")
                     sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}\n")
                     time.sleep(2)
                     sys.stdout.flush()
                     time.sleep(1)
+                    eprint("A1: Ready for rgen input.")
             else:
                 break
     sys.exit(0)

@@ -199,6 +199,7 @@ int main(int argc, char** argv){
             cout<<endl;
         }
         cout<<"gg"<<endl;
+        cerr<<"RGEN: sent rm,add,gg commands to A1."<<endl;
         sleep_period = d_l(urandom);
         sleep(sleep_period);
     }

@@ -59,17 +59,14 @@ int main() {
     vector<unsigned> edgeValues;
     string line;
     while (!cin.eof()) {
-        cerr<<"A2: waiting for input->"<<endl;
         char command;
         cin>>command;
-        cerr<<"A2: got input command"<<command<<"\n"<<endl;
         if (command=='\n'){
             cin.ignore();
             continue;
         }
         else{
             getline(cin,line);
-            line.insert(0,1,command);
         }
         if (command=='V'){
             if (edgeValues.size()>0){
@@ -118,8 +115,6 @@ int main() {
         if (command=='s'){
             istringstream input(line);
             while(!input.eof()){
-                char com;
-                input>>com;
                 input>>source;
                 input>>destination;
             }
