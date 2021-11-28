@@ -59,9 +59,7 @@ int main() {
     unsigned source = 0;
     unsigned destination = 0;
     vector<unsigned> edgeValues;
-
     string line;
-
     while (getline(cin, line)) {
         cerr<<"A2: Receiving input from A1: ";
         char command;
