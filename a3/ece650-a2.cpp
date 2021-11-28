@@ -4,8 +4,14 @@
 #include <regex>
 #include <climits>
 #include <queue>
+#include <chrono>
 
 using namespace std;
+
+using chrono::high_resolution_clock;
+using chrono::duration_cast;
+using chrono::duration;
+using chrono::milliseconds;
 
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
 // Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
@@ -49,6 +55,10 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
 }
 
 int main() {
+
+    auto t1 = high_resolution_clock::now();
+    auto t2 = high_resolution_clock::now();
+
     regex ex_1("V\\s(\\d+)");
     regex ex_2("\\<(\\d+),(\\d+)\\>");
     sregex_iterator End;
@@ -97,7 +107,10 @@ int main() {
                 continue;
             }
             nEdges = edgeValues.size()/2;
-            cout<<"A2: got V, E from A1."<<endl;
+            t2 = high_resolution_clock::now();
+            auto ms_int = duration_cast<milliseconds>(t2 - t1);
+            cout<<"A2: got V, E from A1. Time since last loop:"<<ms_int.count() << "ms"<<endl;
+            t1 = high_resolution_clock::now();
             /*
             if (nEdges>1){
                 cout<<"E {";
