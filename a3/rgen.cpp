@@ -157,7 +157,8 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
                     value = false;
                     break;
                 }
-                if (selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                if (st.segment_endpoints.size()>2&&i!=st.segment_endpoints.size()-2
+                &&selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
                     value = false;
                     break;
                 }
