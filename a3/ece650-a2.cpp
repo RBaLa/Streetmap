@@ -9,8 +9,8 @@ using namespace std;
 
 bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
 // Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
-//1. Push source into queue
-//2. While queue is not empty, do:
+//  Push source into queue
+//  While queue is not empty, do:
 //      get a node (say X) from top of queue,
 //      pop queue;
 //      visit all neighbors of X,
@@ -49,8 +49,6 @@ bool bFSearch(vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigne
 }
 
 int main() {
-    
-    
     regex ex_1("V\\s(\\d+)");
     regex ex_2("\\<(\\d+),(\\d+)\\>");
     sregex_iterator End;
@@ -61,10 +59,8 @@ int main() {
     vector<unsigned> edgeValues;
     string line;
     while (!cin.eof()) {
-        cerr<<"A2: Ready to receive input."<<endl;
         char command;
         cin>>command;
-        cerr<<"Got command:"<<command<<endl;
         if (command=='\n'){
             cin.ignore();
             continue;
@@ -77,11 +73,10 @@ int main() {
             if (edgeValues.size()>0){
                 edgeValues.clear();
             }
-
             smatch match;
             regex_match(line.cbegin(),line.cend(),match,ex_1);
             nVertices = stoi(match[1]);
-            //cout<<"V "<<nVertices<<endl;
+            cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
             int temp1, temp2;
@@ -104,7 +99,6 @@ int main() {
                 continue;
             }
             nEdges = edgeValues.size()/2;
-            /*
             if (nEdges>1){
                 cout<<"E {";
                 for (unsigned i=0;i<nEdges-1;i++){
@@ -117,7 +111,7 @@ int main() {
             }
             else{
                 cout<<"E {}"<<endl;
-            }*/
+            }
         }
         if (command=='s'){
             istringstream input(line);
