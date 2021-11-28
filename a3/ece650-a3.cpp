@@ -47,15 +47,15 @@ int main(int argc, char** argv){
                 execlp("./ece650-a2",(char*)NULL);
             }
             else{
-                dup2(pipe2[WRITE_END],STDOUT_FILENO);
+                //dup2(pipe2[WRITE_END],STDOUT_FILENO);
                 close(pipe1[READ_END]);
                 close(pipe1[WRITE_END]);
                 close(pipe2[READ_END]);
                 close(pipe2[WRITE_END]);
                 string line;
                 while (!cin.eof()){
-                    getline(cin,line);
-                    cout<<line<<endl;
+                    //getline(cin,line);
+                    //cout<<line<<endl;
                     if (cin.eof())
                         break;
                 }
