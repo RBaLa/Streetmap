@@ -6,13 +6,8 @@
 #include <random>
 #include <unistd.h>
 #include <cmath>
-#include <chrono>
 
 using namespace std;
-
-using chrono::high_resolution_clock;
-using chrono::duration_cast;
-using chrono::milliseconds;
 
 typedef array<signed int,2> two_d_coord;
 
@@ -207,8 +202,6 @@ int main(int argc, char** argv){
     char ch;
     string st_name;
     Street st;
-    auto t1 = high_resolution_clock::now();
-    auto t2 = high_resolution_clock::now();
     while(!cin.eof()){
         if (database.size()!=0){
             cout<<"rm \"all\""<<endl<<flush;
@@ -255,10 +248,7 @@ int main(int argc, char** argv){
             cout<<endl<<flush;
         }
         cout<<"gg\n"<<flush;
-        t2 = high_resolution_clock::now();
-        auto ms_int = duration_cast<milliseconds>(t2 - t1);
-        cerr<<"---RGEN: sent commands to A1. Time taken: "<<ms_int.count()<<"ms---\n";
-        t1 = high_resolution_clock::now();
+        cerr<<"---RGEN: sent commands to A1.---\n";
         sleep_period = d_l(urandom);
         sleep(sleep_period);
     }
