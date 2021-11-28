@@ -443,9 +443,9 @@ def main():
                 eprint("A1: sending E to A2.")
                 sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                     for ids,item in enumerate(new_edges)) + "}\n")
-                time.sleep(2)
+                time.sleep(0.5)
                 sys.stdout.flush()
-                time.sleep(1)
+                time.sleep(0.5)
                 eprint("A1: Ready for rgen input.")
         else:
             break
