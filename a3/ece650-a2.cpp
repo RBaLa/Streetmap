@@ -72,8 +72,8 @@ int main() {
             if (edgeValues.size()>0){
                 edgeValues.clear();
             }
-            cin>>command;
-            nVertices = stoi(command);
+            istringstream vinput(line);
+            vinput>>nVertices;
             cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
