@@ -74,7 +74,7 @@ int main() {
             }
             istringstream vinput(line);
             vinput>>nVertices;
-            cout<<"V "<<nVertices<<endl;
+            //cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
             int temp1, temp2;
@@ -97,6 +97,8 @@ int main() {
                 continue;
             }
             nEdges = edgeValues.size()/2;
+            cout<<"A2: got V, E from A1."<<endl;
+            /*
             if (nEdges>1){
                 cout<<"E {";
                 for (unsigned i=0;i<nEdges-1;i++){
@@ -110,6 +112,7 @@ int main() {
             else{
                 cout<<"E {}"<<endl;
             }
+            */
         }
         if (command=='s'){
             istringstream input(line);
