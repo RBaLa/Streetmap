@@ -70,7 +70,7 @@ def eprint(arg):
     None.
 
     """
-    print(arg,file=sys.stderr)
+    sys.stderr.write(arg)
 
 #Function definitions
 def getUserInput(Data):
@@ -115,7 +115,7 @@ def getUserInput(Data):
                 parsed_input['command'] = matchobj2.group(1)
                 parsed_input['street_name'] = street_name
             else:
-                eprint("Error: 'rm' specified for street that does not exist.")
+                eprint("Error: 'rm' specified for street that does not exist.\n")
         #If mod or add
         elif matchobj1 and not matchobj3 and not matchobj4: 
             street_name = ''.join(matchobj1.group(2).split()).lower()
@@ -125,22 +125,22 @@ def getUserInput(Data):
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    eprint("Error: 'add' specified for street already added. Use 'mod' to change coordinates if needed.")
+                    eprint("Error: 'add' specified for street already added. Use 'mod' to change coordinates if needed.\n")
             else:
                 if (street_name in data):
                     parsed_input['command'] = matchobj1.group(1)
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    eprint("Error: 'mod' specified for street that does not exist.")
+                    eprint("Error: 'mod' specified for street that does not exist.\n")
         elif matchobj3: #Error catching
-            eprint('Error: Street name not properly formatted. No leading space or empty field allowed')
+            eprint('Error: Street name not properly formatted. No leading space or empty field allowed\n')
         elif matchobj4: #Error catching
-            eprint("Error: No space between each pair of coordinates. Correct -> (...) (...)")
+            eprint("Error: No space between each pair of coordinates. Correct -> (...) (...)\n")
         elif uin == "": #Termination
             parsed_input['command'] = 'exit'
         else:
-            eprint('Error: Wrong entry format.')
+            eprint('Error: Wrong entry format.\n')
     except EOFError:
         parsed_input['command'] = 'exit'
     return parsed_input
@@ -432,7 +432,7 @@ def main():
                 new_edges = copy.deepcopy(edges)
                 old_vertex_ids = list(vertices.keys())
                 sys.stdout.write("V {!r}\n".format(n_verts))
-                eprint("<<<A1: sent V to A2.>>>")
+                #eprint("<<<A1: sent V to A2.>>>")
                 for i,old_ids in enumerate(edges):
                     for j,ids in enumerate(old_vertex_ids):
                         if old_ids[0]==ids:
@@ -441,7 +441,7 @@ def main():
                             new_edges[i][1]= j+1
                 sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                     for ids,item in enumerate(new_edges)) + "}\n")
-                eprint("<<<A1: sent E to A2.>>>")
+                #eprint("<<<A1: sent E to A2.>>>")
                 time.sleep(1)
                 sys.stdout.flush()
                 time.sleep(1)
