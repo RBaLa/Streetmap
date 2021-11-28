@@ -89,6 +89,8 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
             for (unsigned i=0;i<st.segment_endpoints.size()-1;i++){
                 if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1]))
                     break;
+                if (selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1]))
+                    break;
                 if (i==st.segment_endpoints.size()-2)
                     value = true;
             }
@@ -156,9 +158,6 @@ int main(int argc, char** argv){
     auto t2 = high_resolution_clock::now();
     while(!cin.eof()){
         if (database.size()!=0){
-            /*for (unsigned i=0;i<database.size();i++){
-                cout<<"rm "<<"\""<<database[i].name<<"\""<<endl;
-            }*/
             cout<<"rm \"all\""<<endl
             database.clear();
         }
@@ -177,17 +176,13 @@ int main(int argc, char** argv){
             for (unsigned j=0;j<n_segments;j++){
                 next[0] = d_c(urandom);
                 next[1] = d_c(urandom);
-                int tempcount = 0;
                 while (!suitabilityCheck(start,next,st)){
-                    tempcount++;
+                    try_count++;
                     next[0] = d_c(urandom);
                     next[1] = d_c(urandom);
-                    if (tempcount%4==0){
-                        try_count++;
-                        if (try_count>=25){
-                            cerr<<"Error: failed to generate valid input for 25 continuous attempts"<<endl;
-                            exit(1);
-                        }
+                    if (try_count>=25){
+                        cerr<<"Error: failed to generate valid input for 25 continuous attempts"<<endl;
+                        exit(1);
                     }
                 }
                 try_count = 0;
