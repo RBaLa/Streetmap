@@ -448,7 +448,7 @@ def main():
                     #sys.stdout.flush()
                     sys.stdout.writelines("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                         for ids,item in enumerate(new_edges)) + "}\n")
-                    time.sleep(0.5)
+                    time.sleep(3)
                     sys.stdout.flush()
             else:
                 break
