@@ -52,11 +52,11 @@ int main(int argc, char** argv){
                 close(pipe1[WRITE_END]);
                 close(pipe2[READ_END]);
                 close(pipe2[WRITE_END]);
-                string line;
+                //string line;
                 while (!cin.eof()){
-                    getline(cin,line);
-                    if (line.size()>1)
-                        cout<<line<<endl;
+                    //getline(cin,line);
+                    //if (line.size()>1)
+                        //cout<<line<<endl;
                     if (cin.eof())
                         break;
                 }
