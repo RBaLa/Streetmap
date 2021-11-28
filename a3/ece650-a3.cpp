@@ -46,7 +46,7 @@ int main(int argc, char** argv){
             dup2(pipe1[READ_END],STDIN_FILENO);
             close(pipe1[WRITE_END]);
             close(pipe1[READ_END]);
-            //dup2(pipe2[WRITE_END],STDOUT_FILENO);
+            dup2(pipe2[WRITE_END],STDOUT_FILENO);
             close(pipe2[READ_END]);
             close(pipe2[WRITE_END]);
             execlp("python","python","ece650-a1.py",(char*)NULL);
