@@ -422,9 +422,8 @@ def main():
                             new_edges[i][1]= j+1
                 sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
                     for ids,item in enumerate(new_edges)) + "}\n")
-                time.sleep(1)
+                time.sleep(0.1)
                 sys.stdout.flush()
-                time.sleep(1)
         else:
             break
     sys.exit(0)
