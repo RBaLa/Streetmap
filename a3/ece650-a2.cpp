@@ -61,6 +61,7 @@ int main() {
     vector<unsigned> edgeValues;
     string line;
     while (!cin.eof()) {
+        cerr<<"A2: Ready to receive input."<<endl;
         char command;
         cin>>command;
         if (command=='\n'){
@@ -79,7 +80,7 @@ int main() {
             smatch match;
             regex_match(line.cbegin(),line.cend(),match,ex_1);
             nVertices = stoi(match[1]);
-            cout<<"V "<<nVertices<<endl;
+            //cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
             int temp1, temp2;
@@ -102,6 +103,7 @@ int main() {
                 continue;
             }
             nEdges = edgeValues.size()/2;
+            /*
             if (nEdges>1){
                 cout<<"E {";
                 for (unsigned i=0;i<nEdges-1;i++){
@@ -114,7 +116,7 @@ int main() {
             }
             else{
                 cout<<"E {}"<<endl;
-            }
+            }*/
         }
         if (command=='s'){
             istringstream input(line);
