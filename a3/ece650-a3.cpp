@@ -9,10 +9,10 @@
 
 using namespace std;
 
-int readinput(int& pipefd){
-    dup2(pipefd[WRITE_END],STDOUT_FILENO);
-    close(pipefd[READ_END]);
-    close(pipefd[WRITE_END]);
+int readinput(int& pipe2_read,int& pipe2_write){
+    dup2(pipe2_write,STDOUT_FILENO);
+    close(pipe2_read);
+    close(pipe2_write);
     string line;
     while (!cin.eof()){
         getline(cin,line);
@@ -62,7 +62,7 @@ int main(int argc, char** argv){
                 execlp("./ece650-a2",NULL);
             }
             else{
-                int wait_for_eof = readinput(pipe2);
+                int wait_for_eof = readinput(pipe2[READ_END],pipe2[WRITE_END]);
                 kill(child_a1,SIGTERM);
                 kill(child_a2,SIGTERM);
                 kill(child_rgen,SIGTERM);
