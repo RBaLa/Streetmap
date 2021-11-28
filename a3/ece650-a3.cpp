@@ -54,7 +54,7 @@ int main(int argc, char** argv){
         else{
             child_a2 = fork();
             if (child_a2==0){
-                int dup2check4 = dup2(pipe2[READ_END],STDIN_FILENO);
+                dup2(pipe2[READ_END],STDIN_FILENO);
                 close(pipe2[WRITE_END]);
                 close(pipe2[READ_END]);
                 close(pipe1[WRITE_END]);

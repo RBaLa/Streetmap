@@ -140,7 +140,6 @@ int main(int argc, char** argv){
     uniform_int_distribution<unsigned> alphabet(0,25);
     uniform_int_distribution<unsigned> name_length(4,8);
     unsigned try_count = 0;
-    unsigned second = 1000000;
     unsigned n_streets,n_segments;
     two_d_coord start,next;
     unsigned name_l;
@@ -197,7 +196,7 @@ int main(int argc, char** argv){
         }
         cout<<"gg"<<endl;
         unsigned sleep_period = d_l(urandom);
-        usleep(sleep_period*second);
+        sleep(sleep_period+5);
     }
     return 0;
 }
