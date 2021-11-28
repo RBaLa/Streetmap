@@ -77,6 +77,32 @@ bool checkCollinearity(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two
     return value;
 }
 
+cool selfIntersection(two_d_coord ls_11,two_d_coord ls_12,two_d_coord ls_21,two_d_coord ls_22){
+    bool value = false;
+    int p0_x = ls_11[0];
+    int p0_y = ls_11[1];
+    int p1_x = ls_12[0];
+    int p1_y = ls_12[1];
+    int p2_x = ls_21[0];
+    int p2_y = ls_21[1];
+    int p3_x = ls_22[0];
+    int p3_y = ls_22[1];
+
+    int s1_x = p1_x-p0_x;
+    int s2_x = p3_x-p2_x;
+    int s1_y = p1_y-p0_y;
+    int s2_y = p3_y-p2_y;
+    int det = (-s2_x*s1_y+s1_x*s2_y);
+    if (det!=0){
+        double s = double(-s1_y*(p0_x-p2_x)+s1_x*(p0_y-p2_y))/double(det)
+        double t = double(s2_x*(p0_y-p2_y)-s2_y*(p0_x-p2_x))/double(det)
+        if (s>=0 and s<=1 and t>=0 and t<=1){
+            value = true;
+        }
+    }
+    return value;
+}
+
 bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
     bool value = false;
     if (database.size()==0){
@@ -87,10 +113,14 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
         }
         else{
             for (unsigned i=0;i<st.segment_endpoints.size()-1;i++){
-                if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1]))
+                if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
                     break;
-                if (selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1]))
+                }
+                if (selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
                     break;
+                }
                 if (i==st.segment_endpoints.size()-2)
                     value = true;
             }
@@ -113,6 +143,27 @@ bool suitabilityCheck(two_d_coord a,two_d_coord b,Street st){
             if (j==database.size()-1)
                 value = true;
         }
+        if (st.segment_endpoints.size()==1){
+            if ((a[0]==b[0]&&a[1]==b[1])){
+                value=false;
+            }
+        }
+        else{
+            for (unsigned i=0;i<st.segment_endpoints.size()-1;i++){
+                if (value==false)
+                    break;
+                if (checkCollinearity(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
+                    break;
+                }
+                if (selfIntersection(a,b,st.segment_endpoints[i],st.segment_endpoints[i+1])){
+                    value = false;
+                    break;
+                }
+                if (i==st.segment_endpoints.size()-2)
+                    value = true;
+            }
+        }   
     }
     return value;
 }
@@ -180,7 +231,7 @@ int main(int argc, char** argv){
                     try_count++;
                     next[0] = d_c(urandom);
                     next[1] = d_c(urandom);
-                    if (try_count>=25){
+                    if (try_count==25){
                         cerr<<"Error: failed to generate valid input for 25 continuous attempts"<<endl;
                         exit(1);
                     }
