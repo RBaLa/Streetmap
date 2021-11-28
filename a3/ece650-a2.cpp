@@ -72,9 +72,8 @@ int main() {
             if (edgeValues.size()>0){
                 edgeValues.clear();
             }
-            smatch match;
-            regex_match(line.cbegin(),line.cend(),match,ex_1);
-            nVertices = stoi(match[1]);
+            cin>>command;
+            nVertices = stoi(command);
             cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
