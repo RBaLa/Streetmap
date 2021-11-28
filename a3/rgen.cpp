@@ -211,7 +211,7 @@ int main(int argc, char** argv){
     auto t2 = high_resolution_clock::now();
     while(!cin.eof()){
         if (database.size()!=0){
-            cout<<"rm \"all\""<<endl;
+            cout<<"rm \"all\""<<endl<<flush;
             database.clear();
         }
         n_streets = d_n(urandom);
@@ -252,9 +252,9 @@ int main(int argc, char** argv){
             for (unsigned j=0;j<database[i].segment_endpoints.size();j++){
                 cout<<"("<<database[i].segment_endpoints[j][0]<<","<<database[i].segment_endpoints[j][1]<<") ";
             }
-            cout<<endl;
+            cout<<endl<<flush;
         }
-        cout<<"gg\n";
+        cout<<"gg\n"<<flush;
         t2 = high_resolution_clock::now();
         auto ms_int = duration_cast<milliseconds>(t2 - t1);
         cerr<<"---RGEN: sent commands to A1. Time taken: "<<ms_int.count()<<"ms---\n";
