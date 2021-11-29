@@ -56,7 +56,7 @@ def eprint(arg):
     None.
 
     """
-    sys.stderr.write(arg)
+    print(arg,file=sys.stderr)
     sys.stderr.flush()
 
 #Function definitions
@@ -107,22 +107,22 @@ def getUserInput(Data):
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    eprint("Error: 'add' specified for street already added. Use 'mod' to change coordinates if needed.\n")
+                    eprint("Error: 'add' specified for street already added. Use 'mod' to change coordinates if needed.")
             else:
                 if (street_name in data):
                     parsed_input['command'] = matchobj1.group(1)
                     parsed_input['street_name'] = street_name
                     parsed_input['coords'] = matchobj1.group(3)
                 else:
-                    eprint("Error: 'mod' specified for street that does not exist.\n")
+                    eprint("Error: 'mod' specified for street that does not exist.")
         elif matchobj3: #Error catching
-            eprint('Error: Street name not properly formatted. No leading space or empty field allowed\n')
+            eprint('Error: Street name not properly formatted. No leading space or empty field allowed')
         elif matchobj4: #Error catching
-            eprint("Error: No space between each pair of coordinates. Correct -> (...) (...)\n")
+            eprint("Error: No space between each pair of coordinates. Correct -> (...) (...)")
         elif uin == "": #Termination
             parsed_input['command'] = 'exit'
         else:
-            eprint('Error: Wrong entry format.\n')
+            eprint('Error: Wrong entry format.')
     except EOFError:
         parsed_input['command'] = 'exit'
     return parsed_input
@@ -407,9 +407,11 @@ def main():
                     database.clear()
             #If gg-
             else:
-                eprint("***A1 got command gg.***\n")
+                eprint("***A1 got command gg.***")
                 lsegs = getLineSegments(database) #dict
+                eprint("***A1 split out all line segments.***")
                 vertices,edges = getGraph(lsegs) #dict,list
+                eprint("***A1 computed V and E's.***")
                 n_verts = len(vertices)
                 new_edges = copy.deepcopy(edges)
                 old_vertex_ids = list(vertices.keys())
@@ -426,7 +428,6 @@ def main():
                     for ids,item in enumerate(new_edges)) + "}\n")
                 sys.stdout.flush()
                 time.sleep(0.05)
-                eprint("***A1 sent commands to A2.***\n")
         else:
             break
     sys.exit(0)
