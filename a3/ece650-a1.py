@@ -319,7 +319,7 @@ def getGraph(linesegs):
                     s2_x = p3_x-p2_x
                     s1_y = p1_y-p0_y
                     s2_y = p3_y-p2_y
-                    det = float(-s2_x*s1_y+s1_x*s2_y)
+                    det = -s2_x*s1_y+s1_x*s2_y
                     if det != 0: #If not collinear or parallel
                         s = float(-s1_y*(p0_x-p2_x)+s1_x*(p0_y-p2_y))/det
                         t = float(s2_x*(p0_y-p2_y)-s2_y*(p0_x-p2_x))/det
@@ -339,7 +339,6 @@ def getGraph(linesegs):
                             edges.append([count,count+2])
                             edges.append([count,count+3])
                             edges.append([count,count+4])
-                            
                             count = count+5
     #Replace all duplicate vertices with a single id
     uniq_vs = list()
