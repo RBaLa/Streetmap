@@ -400,7 +400,6 @@ def main():
             else:
                 lsegs = getLineSegments(database) #dict
                 vertices,edges = getGraph(lsegs) #dict,list
-                eprint("**********A1: Calculated V,E; sending to A2...***********")
                 n_verts = len(vertices)
                 new_edges = copy.deepcopy(edges)
                 old_vertex_ids = list(vertices.keys())
