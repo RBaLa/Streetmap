@@ -205,10 +205,9 @@ int main(int argc, char** argv){
     while(!cin.eof()){
         if (database.size()!=0){
             cout<<"rm \"all\""<<endl<<flush;
-            cerr<<"rm \"all\""<<endl<<flush;
             database.clear();
         }
-        n_streets = d_n(urandom);
+        n_streets = d_s(urandom);
         for (unsigned i=0;i<n_streets;i++){
             name_l = name_length(urandom);
             for (unsigned k=0;k<name_l;k++){
@@ -247,12 +246,6 @@ int main(int argc, char** argv){
                 cout<<"("<<database[i].segment_endpoints[j][0]<<","<<database[i].segment_endpoints[j][1]<<") ";
             }
             cout<<endl<<flush;
-            cerr<<"add \""<<database[i].name<<"\" ";
-            for (unsigned j=0;j<database[i].segment_endpoints.size();j++){
-                cerr<<"("<<database[i].segment_endpoints[j][0]<<","<<database[i].segment_endpoints[j][1]<<") ";
-            }
-            cerr<<endl<<flush;
-
         }
         cout<<"gg\n"<<flush;
         cerr<<"gg\n"<<flush;
