@@ -57,7 +57,6 @@ int main() {
     unsigned destination = 0;
     vector<unsigned> edgeValues;
     string line;
-    int count = 1;
     while (!cin.eof()) {
         char command;
         cin>>command;
