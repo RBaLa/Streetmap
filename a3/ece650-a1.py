@@ -38,6 +38,8 @@ Last edited on Thu Oct 14 17:23:28 2021
 import re
 import sys
 import copy
+import time
+import math
 
 def eprint(arg):
     """
@@ -204,8 +206,8 @@ def collinearCheck(ls1,point):
     p0_x,p0_y = ls1[0][0],ls1[0][1]
     p1_x,p1_y = ls1[1][0],ls1[1][1]
     p2_x,p2_y = point[0],point[1]
-    if ((p2_y-p0_y)*(p1_x-p0_x)==(p1_y-p0_y)*(p2_x-p0_x) and
-        (p1_y-p2_y)*(p1_x-p0_x)==(p1_y-p0_y)*(p1_x-p2_x)):
+    if (math.floor((p2_y-p0_y)*(p1_x-p0_x))==math.floor((p1_y-p0_y)*(p2_x-p0_x)) and
+        math.floor((p1_y-p2_y)*(p1_x-p0_x))==math.floor((p1_y-p0_y)*(p1_x-p2_x))):
         checkdist = distance(ls1[0],ls1[1])
         if (distance(ls1[0],point)<checkdist and 
             distance(ls1[1],point)<checkdist):
