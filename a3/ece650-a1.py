@@ -361,9 +361,13 @@ def getGraph(linesegs):
     for i in vs_to_remove:
         del verts[i]
     #Correcting the naively computed edges
+    eprint("**********A1: getGraph() checkpoint 1 passed************")
     new_edges = removeDuplicateEdges(edges)
+    eprint("**********A1: getGraph() checkpoint 2 passed************")
     new_edges = correctCollinearEdges(new_edges, verts)
+    eprint("**********A1: getGraph() checkpoint 3 passed************")
     new_edges = removeDuplicateEdges(new_edges)
+    eprint("**********A1: getGraph() checkpoint 4 passed************")
     return verts,new_edges
 
 def main():
