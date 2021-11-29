@@ -245,7 +245,7 @@ def correctCollinearEdges(org_edges,verts):
                         edges_to_add.append([edge[1],j])
                         edges_to_remove.append(edge)
                         flag = True
-                        eprint(">>>>>>>>>>>>>> edge"+edge+"->"[edge[0],j]+","+[j,edge[1]])
+                        eprint(">>>>>>>>>>>>>> edge"+"[({!r},{!r}),({!r},{!r})]".format(edge[0][0],edge[0][1],edge[1][0],edge[1][1])+"->"+"[({!r},{!r}),({!r},{!r})]".format(edge[0][0],edge[0][1],j[0],j[1])+",[({!r},{!r}),({!r},{!r})]".format(j[0],j[1],edge[1][0],edge[1][1]))
         if flag==True:
             new_edges.extend(edges_to_add)
             new_edges.extend([j for j in edges if j not in edges_to_remove])
