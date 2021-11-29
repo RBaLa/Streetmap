@@ -60,7 +60,6 @@ int main() {
     while (!cin.eof()) {
         char command;
         cin>>command;
-        cerr<<"A2 got command "<<command<<endl<<flush;
         if (command=='\n'){
             cin.ignore();
             continue;
