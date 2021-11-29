@@ -230,26 +230,24 @@ def correctCollinearEdges(org_edges,verts):
 
     """
     edges = copy.deepcopy(org_edges)
-    all_set = False
-    while all_set != True:
-        new_edges = list()
-        check_count = 0
-        for i in range(len(edges)):
-            ls_ids = edges[i]
-            ls = [verts[ls_ids[0]],verts[ls_ids[1]]]
-            flag = False
+    new_edges = list()
+    edges_to_add = list()
+    edges_to_remove = list()
+    flag = True
+    while flag==True:
+        flag = False
+        for i,edge in enumerate(edges):
+            ls = [verts[edge[0]],verts[edge[1]]]
             for j in verts:
-                if j != ls_ids[0] and j != ls_ids[1]:
+                if j != edge[0] and j != edge[1]:
                     if collinearCheck(ls,verts[j])==True:
-                        new_edges.append([ls_ids[0],j])
-                        new_edges.append([ls_ids[1],j])
+                        edges_to_add.append([edge[0],j])
+                        edges_to_add.append([edge[1],j])
+                        edges_to_remove.append(edge)
                         flag = True
-            if flag == True:
-                check_count += 1
-            else:
-                new_edges.append(edges[i])
-        if check_count == 0:
-            all_set = True
+        if flag==True:
+            new_edges.extend(edges_to_add)
+            new_edges.extend([j for j in edges if j not in edges_to_remove])
         edges = copy.deepcopy(new_edges)
     return edges
 
@@ -372,11 +370,9 @@ def getGraph(linesegs):
         del verts[i]
     #Correcting the naively computed edges
     new_edges = removeDuplicateEdges(edges)
-    eprint("******A1 getGraph(): finished first edge op.******")
     new_edges = correctCollinearEdges(new_edges, verts)
-    eprint("******A1 getGraph(): finished second edge op.******")
+    eprint("******A1 getGraph(): finished edge op.******")
     new_edges = removeDuplicateEdges(new_edges)
-    eprint("******A1 getGraph(): finished third edge op. DONE******")
     return verts,new_edges
 
 def main():
