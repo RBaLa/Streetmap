@@ -235,21 +235,18 @@ def correctCollinearEdges(org_edges,verts):
     edges_to_remove = list()
     flag = True
     while flag==True:
-        flag = False
         for i,edge in enumerate(edges):
+            flag = False
             ls = [verts[edge[0]],verts[edge[1]]]
             for j in verts:
                 if j != edge[0] and j != edge[1]:
                     if collinearCheck(ls,verts[j])==True:
                         edges_to_add.append([edge[0],j])
                         edges_to_add.append([edge[1],j])
-                        edges_to_remove.append(edge)
                         flag = True
-                        eprint(">>>>>>>>>>>>>> edge"+"[{!r},{!r}]".format(edge[0],edge[1])+"->"+"[{!r},{!r}]".format(edge[0],j)+"[{!r},{!r}]".format(j,edge[1]))
-        if flag==True:
-            new_edges.extend(edges_to_add)
-            new_edges.extend([j for j in edges if j not in edges_to_remove])
-        edges = copy.deepcopy(new_edges)
+            if flag==False:
+                edges_to_add.append(edge)
+        edges = [i for i in edges_to_add]
     return edges
 
 def removeDuplicateEdges(org_edges):
