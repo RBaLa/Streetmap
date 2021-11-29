@@ -205,6 +205,7 @@ int main(int argc, char** argv){
     while(!cin.eof()){
         if (database.size()!=0){
             cout<<"rm \"all\""<<endl<<flush;
+            cerr<<"rm \"all\""<<endl<<flush;
             database.clear();
         }
         n_streets = d_s(urandom);
@@ -248,7 +249,6 @@ int main(int argc, char** argv){
             cout<<endl<<flush;
         }
         cout<<"gg\n"<<flush;
-        cerr<<"gg\n"<<flush;
         sleep_period = d_l(urandom);
         sleep(sleep_period);
     }
