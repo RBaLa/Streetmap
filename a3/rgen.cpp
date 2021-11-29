@@ -248,7 +248,6 @@ int main(int argc, char** argv){
             cout<<endl<<flush;
         }
         cout<<"gg\n"<<flush;
-        cerr<<"gg\n"<<flush;
         sleep_period = d_l(urandom);
         sleep(sleep_period);
     }
