@@ -266,16 +266,9 @@ def removeDuplicateEdges(org_edges):
 
     """
     edges = copy.deepcopy(org_edges)
-    eds_to_remove = list()
-    for coord in edges:
-        if coord[0] == coord[1]:
-            edges.remove(coord)
-    for i,edge1 in enumerate(edges):
-        for j,edge2 in enumerate(edges):
-            if j not in eds_to_remove:
-                if (i<j and (edge1==edge2 or (edge1[0]==edge2[1] and edge1[1]==edge2[0]))):
-                    eds_to_remove.append(j);
-    new_edges = [edges[x] for x in range(len(edges)) if x not in eds_to_remove]
+    reversed_edges = [[i[1],i[0]] for i in edges]
+    new_edges = [i for i in edges if i not in reversed_edges]
+        
     return new_edges
 
 def getGraph(linesegs):
@@ -403,11 +396,8 @@ def main():
                     database.clear()
             #If gg-
             else:
-                eprint("***A1 got command gg.***")
                 lsegs = getLineSegments(database) #dict
-                eprint("***A1 split out all line segments.***")
                 vertices,edges = getGraph(lsegs) #dict,list
-                eprint("***A1 computed V and E's.***")
                 n_verts = len(vertices)
                 new_edges = copy.deepcopy(edges)
                 old_vertex_ids = list(vertices.keys())
