@@ -73,7 +73,7 @@ int main() {
             }
             istringstream vinput(line);
             vinput>>nVertices;
-            //cout<<"V "<<nVertices<<endl;
+            cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
             int temp1, temp2;
