@@ -245,6 +245,7 @@ def correctCollinearEdges(org_edges,verts):
                         edges_to_add.append([edge[1],j])
                         edges_to_remove.append(edge)
                         flag = True
+                        eprint(">>>>>>>>>>>>>> edge"+edge+"->"[edge[0],j]+","+[j,edge[1]])
         if flag==True:
             new_edges.extend(edges_to_add)
             new_edges.extend([j for j in edges if j not in edges_to_remove])
@@ -370,9 +371,11 @@ def getGraph(linesegs):
         del verts[i]
     #Correcting the naively computed edges
     new_edges = removeDuplicateEdges(edges)
+    eprint("******A1 getGraph(): first edge op done.******")
     new_edges = correctCollinearEdges(new_edges, verts)
-    eprint("******A1 getGraph(): finished edge op.******")
+    eprint("******A1 getGraph(): second edge op done.******")
     new_edges = removeDuplicateEdges(new_edges)
+    eprint("******A1 getGraph(): finished edge ops.******")
     return verts,new_edges
 
 def main():
