@@ -413,7 +413,6 @@ def main():
                 new_edges = copy.deepcopy(edges)
                 old_vertex_ids = list(vertices.keys())
                 sys.stdout.write("V {!r}\n".format(n_verts))
-                eprint("***A1: V {!r}\n".format(n_verts))
                 sys.stdout.flush()
                 for i,old_ids in enumerate(edges):
                     for j,ids in enumerate(old_vertex_ids):
