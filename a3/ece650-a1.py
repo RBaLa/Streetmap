@@ -352,7 +352,6 @@ def getGraph(linesegs):
                             edges.append([count,count+4])
                             
                             count = count+5
-    eprint("******A1 getGraph(): got all vertices and edges naively.******")
     #Replace all duplicate vertices with a single id
     uniq_vs = list()
     vs_to_remove = list()
@@ -371,12 +370,13 @@ def getGraph(linesegs):
     vs_to_remove = set(vs_to_remove) #To ensure no duplicate vertices
     for i in vs_to_remove:
         del verts[i]
-    eprint("******A1 getGraph(): got vertices perfectly.******")
     #Correcting the naively computed edges
     new_edges = removeDuplicateEdges(edges)
+    eprint("******A1 getGraph(): finished first edge op.******")
     new_edges = correctCollinearEdges(new_edges, verts)
+    eprint("******A1 getGraph(): finished second edge op.******")
     new_edges = removeDuplicateEdges(new_edges)
-    eprint("******A1 getGraph(): got edges perfectly.******")
+    eprint("******A1 getGraph(): finished third edge op. DONE******")
     return verts,new_edges
 
 def main():
