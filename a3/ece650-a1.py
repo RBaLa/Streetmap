@@ -391,6 +391,7 @@ def main():
                 if command != "rm":
                     database[user_input['street_name']] = user_input['coords']
                 else:
+                    eprint("A1: ------------received rm command")
                     database.clear()
             #If gg-
             else:
