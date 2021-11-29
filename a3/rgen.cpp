@@ -211,6 +211,7 @@ int main(int argc, char** argv){
             database.clear();
         }
         while (true){
+            flag = true;
             n_streets = d_s(urandom);
             for (unsigned i=0;i<n_streets;i++){
                 name_l = name_length(urandom);
