@@ -270,11 +270,11 @@ def removeDuplicateEdges(org_edges):
     for coord in edges:
         if coord[0] == coord[1]:
             edges.remove(coord)
-    for i in range(len(edges)-1):
-        for j in range(i+1,len(edges)):
-            if (edges[i]==edges[j] or (edges[i][0]==edges[j][1] and
-                                       edges[i][1]==edges[j][0])):
-                eds_to_remove.append(j)
+    for i,edge1 in enumerate(edges):
+        for j,edge2 in enumerate(edges):
+            if j not in eds_to_remove:
+                if (i<j and (edge1==edge2 or (edge1[0]==edge2[1] and edge1[1]==edge2[0]))):
+                    eds_to_remove.append(j);
     new_edges = [edges[x] for x in range(len(edges)) if x not in eds_to_remove]
     return new_edges
 
