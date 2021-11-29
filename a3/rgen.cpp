@@ -195,6 +195,8 @@ int main(int argc, char** argv){
     uniform_int_distribution<unsigned> alphabet(0,25);
     uniform_int_distribution<unsigned> name_length(4,8);
     unsigned try_count = 0;
+    unsigned segment_try_count = 0;
+    unsigned created_streets_count = 0;
     unsigned n_streets,n_segments;
     unsigned sleep_period;
     two_d_coord start,next;
@@ -202,44 +204,64 @@ int main(int argc, char** argv){
     char ch;
     string st_name;
     Street st;
+    bool flag = true;
     while(!cin.eof()){
         if (database.size()!=0){
             cout<<"rm \"all\""<<endl<<flush;
             database.clear();
         }
-        n_streets = d_s(urandom);
-        for (unsigned i=0;i<n_streets;i++){
-            name_l = name_length(urandom);
-            for (unsigned k=0;k<name_l;k++){
-                ch = 'a'+alphabet(urandom);
-                st.name.push_back(ch);
-            }
-            st.name.append(" street");
-            start[0] = d_c(urandom);
-            start[1] = d_c(urandom);
-            st.segment_endpoints.push_back(start);
-            n_segments = d_n(urandom);
-            for (unsigned j=0;j<n_segments;j++){
-                next[0] = d_c(urandom);
-                next[1] = d_c(urandom);
-                while (!suitabilityCheck(start,next,st)){
-                    try_count++;
+        while (true){
+            n_streets = d_s(urandom);
+            for (unsigned i=0;i<n_streets;i++){
+                name_l = name_length(urandom);
+                for (unsigned k=0;k<name_l;k++){
+                    ch = 'a'+alphabet(urandom);
+                    st.name.push_back(ch);
+                }
+                st.name.append(" street");
+                start[0] = d_c(urandom);
+                start[1] = d_c(urandom);
+                st.segment_endpoints.push_back(start);
+                n_segments = d_n(urandom);
+                for (unsigned j=0;j<n_segments;j++){
                     next[0] = d_c(urandom);
                     next[1] = d_c(urandom);
+                    while (!suitabilityCheck(start,next,st)){
+                        segment_try_count++;
+                        next[0] = d_c(urandom);
+                        next[1] = d_c(urandom);
+                        if (segment_try_count==25){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag==false)
+                        break;
+                    segment_try_count = 0;
+                    st.segment_endpoints.push_back(next);
+                    start[0] = next[0];
+                    start[1] = next[1];
+                }
+                if (flag==false){
+                    try_count++;
+                    database.clear();
                     if (try_count==25){
-                        cerr<<"Error: failed to generate valid input for 25 continuous attempts"<<endl;
+                        cerr<<"Eror: Rgen failed to generate street for 25 continous attempts.\n"<<flush;
                         exit(1);
                     }
+                    break;
                 }
-                try_count = 0;
-                st.segment_endpoints.push_back(next);
-                start[0] = next[0];
-                start[1] = next[1];
+                created_streets_count++;
+                database.push_back(st);
+                st.name.clear();
+                st.segment_endpoints.clear();
             }
-            database.push_back(st);
-            st.name.clear();
-            st.segment_endpoints.clear();
+            if (created_streets_count==n_streets){
+                created_streets_count = 0;
+                break;
+            }
         }
+
         for (unsigned i=0;i<database.size();i++){
             cout<<"add \""<<database[i].name<<"\" ";
             for (unsigned j=0;j<database[i].segment_endpoints.size();j++){
