@@ -407,6 +407,7 @@ def main():
                     database.clear()
             #If gg-
             else:
+                eprint("***A1: Got gg command from RGEN.***\n")
                 lsegs = getLineSegments(database) #dict
                 vertices,edges = getGraph(lsegs) #dict,list
                 n_verts = len(vertices)
