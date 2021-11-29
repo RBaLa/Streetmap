@@ -57,6 +57,7 @@ int main() {
     unsigned destination = 0;
     vector<unsigned> edgeValues;
     string line;
+    int count = 1;
     while (!cin.eof()) {
         char command;
         cin>>command;
@@ -73,7 +74,7 @@ int main() {
             }
             istringstream vinput(line);
             vinput>>nVertices;
-            cout<<"V "<<nVertices<<endl;
+            //cout<<"V "<<nVertices<<endl;
         }
         if (command=='E'){
             int temp1, temp2;
@@ -111,6 +112,8 @@ int main() {
                 cout<<"E {}\n";
             }
             */
+            cerr<<"A2: new V, E received "<<count<<" time(s)."<<endl<<flush;
+            count++;
         }
         if (command=='s'){
             istringstream input(line);
