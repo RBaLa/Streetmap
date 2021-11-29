@@ -38,8 +38,8 @@ Last edited on Thu Oct 14 17:23:28 2021
 import re
 import sys
 import copy
-import time
 import math
+import time
 
 def eprint(arg):
     """
@@ -56,6 +56,7 @@ def eprint(arg):
 
     """
     print(arg,file=sys.stderr)
+    sys.stderr.flush()
 
 #Function definitions
 def getUserInput(Data):
@@ -78,11 +79,10 @@ def getUserInput(Data):
     try:
         data = copy.deepcopy(Data)
         parsed_input = {}
-       # uin = sys.stdin.readline()
         uin = sys.stdin.readline()
         #Regex patterns:
         pattern1 = "(add|mod)\s\"([a-zA-Z\s]+)\"\s((\(-?\d*,-?\d*\) ?){2,})"
-        pattern2 = "(rm)\s\"([a-zA-Z\s]+)\""
+        pattern2 = "(rm)\s\"([a-zA-Z]+)\""
         pattern3 = "\"( +[a-zA-Z\s]*)\""
         pattern4 = "\)\("
         #Matching to ensure proper instruction formatting:
@@ -96,12 +96,7 @@ def getUserInput(Data):
             parsed_input['command'] = 'gg'
         #If rm
         elif matchobj2:
-            street_name = ''.join(matchobj2.group(2).split()).lower()
-            if street_name in data:
-                parsed_input['command'] = matchobj2.group(1)
-                parsed_input['street_name'] = street_name
-            else:
-                eprint("Error: 'rm' specified for street that does not exist.")
+            parsed_input['command'] = matchobj2.group(1)
         #If mod or add
         elif matchobj1 and not matchobj3 and not matchobj4: 
             street_name = ''.join(matchobj1.group(2).split()).lower()
@@ -234,27 +229,23 @@ def correctCollinearEdges(org_edges,verts):
 
     """
     edges = copy.deepcopy(org_edges)
-    all_set = False
-    while all_set != True:
-        new_edges = list()
-        check_count = 0
-        for i in range(len(edges)):
-            ls_ids = edges[i]
-            ls = [verts[ls_ids[0]],verts[ls_ids[1]]]
+    new_edges = list()
+    edges_to_add = list()
+    edges_to_remove = list()
+    flag = True
+    while flag==True:
+        for i,edge in enumerate(edges):
             flag = False
+            ls = [verts[edge[0]],verts[edge[1]]]
             for j in verts:
-                if j != ls_ids[0] and j != ls_ids[1]:
+                if j != edge[0] and j != edge[1]:
                     if collinearCheck(ls,verts[j])==True:
-                        new_edges.append([ls_ids[0],j])
-                        new_edges.append([ls_ids[1],j])
+                        edges_to_add.append([edge[0],j])
+                        edges_to_add.append([edge[1],j])
                         flag = True
-            if flag == True:
-                check_count += 1
-            else:
-                new_edges.append(edges[i])
-        if check_count == 0:
-            all_set = True
-        edges = copy.deepcopy(new_edges)
+            if flag==False:
+                edges_to_add.append(edge)
+        edges = [i for i in edges_to_add]
     return edges
 
 def removeDuplicateEdges(org_edges):
@@ -274,17 +265,13 @@ def removeDuplicateEdges(org_edges):
 
     """
     edges = copy.deepcopy(org_edges)
-    eds_to_remove = list()
-    for coord in edges:
-        if coord[0] == coord[1]:
-            edges.remove(coord)
-    for i in range(len(edges)-1):
-        for j in range(i+1,len(edges)):
-            if (edges[i]==edges[j] or (edges[i][0]==edges[j][1] and
-                                       edges[i][1]==edges[j][0])):
-                eds_to_remove.append(j)
-    new_edges = [edges[x] for x in range(len(edges)) if x not in eds_to_remove]
-    return new_edges
+    sorted_edges = [sorted(i) for i in edges]
+    unique_edges = set(tuple(i) for i in sorted_edges)
+    new_edges = [i for i in unique_edges]
+    reversed_edges = [(i[1],i[0]) for i in new_edges]
+    edges = [[i[0],i[1]] for i in new_edges if i not in reversed_edges]
+        
+    return edges
 
 def getGraph(linesegs):
     """
@@ -334,7 +321,7 @@ def getGraph(linesegs):
                     s2_x = p3_x-p2_x
                     s1_y = p1_y-p0_y
                     s2_y = p3_y-p2_y
-                    det = float(-s2_x*s1_y+s1_x*s2_y)
+                    det = -s2_x*s1_y+s1_x*s2_y
                     if det != 0: #If not collinear or parallel
                         s = float(-s1_y*(p0_x-p2_x)+s1_x*(p0_y-p2_y))/det
                         t = float(s2_x*(p0_y-p2_y)-s2_y*(p0_x-p2_x))/det
@@ -344,7 +331,7 @@ def getGraph(linesegs):
                             int_y = float(p0_y+(t*s1_y))
                             #Add intersection and 4 ends of line segments as 
                             #vertices:
-                            verts[count] = [round(int_x,2),round(int_y,2)]
+                            verts[count] = [int_x,int_y]
                             verts[count+1] = [p0_x,p0_y]
                             verts[count+2] = [p1_x,p1_y]
                             verts[count+3] = [p2_x,p2_y]
@@ -354,9 +341,7 @@ def getGraph(linesegs):
                             edges.append([count,count+2])
                             edges.append([count,count+3])
                             edges.append([count,count+4])
-                            
                             count = count+5
-    
     #Replace all duplicate vertices with a single id
     uniq_vs = list()
     vs_to_remove = list()
@@ -375,12 +360,10 @@ def getGraph(linesegs):
     vs_to_remove = set(vs_to_remove) #To ensure no duplicate vertices
     for i in vs_to_remove:
         del verts[i]
-    
     #Correcting the naively computed edges
     new_edges = removeDuplicateEdges(edges)
     new_edges = correctCollinearEdges(new_edges, verts)
     new_edges = removeDuplicateEdges(new_edges)
-    
     return verts,new_edges
 
 def main():
@@ -400,44 +383,37 @@ def main():
     edges = list()
     while True:
         user_input = getUserInput(database) #dict
-        if user_input=={}:
-            pass
-        else:
-            #From user input, get command
-            command = user_input['command']
-            if command != "exit":
-                #If add,mod,rm- compute/re-compute edges, vertices
-                if command != "gg":
-                    if command != "rm":
-                        database[user_input['street_name']] = user_input['coords']
-                    else:
-                        del database[user_input['street_name']]
-                    
-                    lsegs = getLineSegments(database) #dict
-                    vertices,edges = getGraph(lsegs) #dict,list
-                
+        #From user input, get command
+        command = user_input['command']
+        if command != "exit":
+            #If add,mod,rm-
+            if command != "gg":
+                if command != "rm":
+                    database[user_input['street_name']] = user_input['coords']
                 else:
-                    lsegs = getLineSegments(database) #dict
-                    vertices,edges = getGraph(lsegs) #dict,list
-                    n_verts = len(vertices)
-                    new_edges = copy.deepcopy(edges)
-                    old_vertex_ids = list(vertices.keys())
-                    sys.stdout.write("V {!r}\n".format(n_verts))
-                    sys.stdout.flush()
-                    time.sleep(0.05)
-                    for i,old_ids in enumerate(edges):
-                        for j,ids in enumerate(old_vertex_ids):
-                            if old_ids[0]==ids:
-                                new_edges[i][0]= j+1
-                            if old_ids[1]==ids:
-                                new_edges[i][1]= j+1
-                    sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
-                        for ids,item in enumerate(new_edges)) + "}\n")
-                    sys.stdout.flush()
-                    time.sleep(0.05)
-                
+                    database.clear()
+            #If gg-
             else:
-                break
+                lsegs = getLineSegments(database) #dict
+                vertices,edges = getGraph(lsegs) #dict,list
+                n_verts = len(vertices)
+                new_edges = copy.deepcopy(edges)
+                old_vertex_ids = list(vertices.keys())
+                sys.stdout.write("V {!r}\n".format(n_verts))
+                sys.stdout.flush()
+                time.sleep(0.05)
+                for i,old_ids in enumerate(edges):
+                    for j,ids in enumerate(old_vertex_ids):
+                        if old_ids[0]==ids:
+                            new_edges[i][0]= j+1
+                        if old_ids[1]==ids:
+                            new_edges[i][1]= j+1
+                sys.stdout.write("E {"+",".join("<{!r},{!r}>".format(item[0],item[1])
+                    for ids,item in enumerate(new_edges)) + "}\n")
+                sys.stdout.flush()
+                time.sleep(0.05)
+        else:
+            break
     sys.exit(0)
 
 if __name__=="__main__":
