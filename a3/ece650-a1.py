@@ -407,6 +407,7 @@ def main():
                     database.clear()
             #If gg-
             else:
+                eprint("***A1 got command gg.***\n")
                 lsegs = getLineSegments(database) #dict
                 vertices,edges = getGraph(lsegs) #dict,list
                 n_verts = len(vertices)
@@ -425,6 +426,7 @@ def main():
                     for ids,item in enumerate(new_edges)) + "}\n")
                 sys.stdout.flush()
                 time.sleep(0.05)
+                eprint("***A1 sent commands to A2.***\n")
         else:
             break
     sys.exit(0)
