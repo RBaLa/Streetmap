@@ -205,6 +205,7 @@ int main(int argc, char** argv){
     while(!cin.eof()){
         if (database.size()!=0){
             cout<<"rm \"all\""<<endl<<flush;
+            cerr<<"rm \"all\""<<endl<<flush;
             database.clear();
         }
         n_streets = d_s(urandom);
