@@ -5,6 +5,48 @@
 #include <minisat/core/SolverTypes.h>
 #include "minisat/core/Solver.h"
 
+bool bFSearch(std::vector<unsigned> neighbors[], unsigned src, unsigned dest, unsigned nV, unsigned dist[], int prev[]){
+// Breadth-first search algorithm referenced from Introduction to Algorithms and Tutorialspoint. Briefly,
+//  Push source into queue
+//  While queue is not empty, do:
+//      get a node (say X) from top of queue,
+//      pop queue;
+//      visit all neighbors of X,
+//      update distance of all neighbors and set their parent to X,
+//      if destination is reached, exit algorithm.
+
+    int color[nV]; //0(white), 1(grey), 2(black)
+    std::queue<unsigned> q; //initializing queue for BFS
+    for (unsigned i=0;i<nV;i++){
+        dist[i] = INT_MAX;
+        color[i] = 0;//white
+        prev[i] = -1;
+    }
+    dist[src-1] = 0;
+    color[src-1] = 1;//grey
+    q.push(src);
+
+    //BFS Algorithm:
+    while(!q.empty()){
+        unsigned x = q.front();
+        q.pop();
+        for (unsigned i = 0; i < neighbors[x-1].size(); i++) {
+            if (color[neighbors[x-1][i]-1] == 0) {
+                color[neighbors[x-1][i]-1] = 1;
+                dist[neighbors[x-1][i]-1] = dist[x-1] + 1;
+                prev[neighbors[x-1][i]-1] = x;
+                q.push(neighbors[x-1][i]);
+
+                if (neighbors[x-1][i] == dest)
+                   return true;
+                color[x-1] = 2;
+            }
+        }
+    }
+    return false;
+}
+
+
 int main(void)
 {
     std::unique_ptr<Minisat::Solver> solver(new Minisat::Solver());
@@ -145,7 +187,7 @@ int main(void)
                         else {
                             for (unsigned j=0; j<n_vertices-1; j++)
                                 std::cout<<Minisat::toInt(solver->modelValue(literal_array[j,i]))<<" ";
-                            std::cout<<Minisat::toInt(solver->modelValue(literal_array[n_vertices-1,i]))<<endl;
+                            std::cout<<Minisat::toInt(solver->modelValue(literal_array[n_vertices-1,i]))<<std::endl;
                         }
                     }
                     delete[] ptr_to_literals;
@@ -175,7 +217,7 @@ int main(void)
                     edges1[i] = edge_values[2*i];
                     edges2[i] = edge_values[2*i+1];
                 }
-                vector<unsigned> neighborArray[n_vertices];
+                std::vector<unsigned> neighborArray[n_vertices];
                 for (unsigned i=0; i<n_vertices; i++){
                     for (unsigned j=0; j<n_edges; j++){
                         if ((i+1)==edges1[j]){
@@ -192,7 +234,7 @@ int main(void)
                     std::cerr<<"Error: No path exists between specified nodes.\n";
                 }
                 else{
-                    vector<unsigned> path;
+                    std::vector<unsigned> path;
                     unsigned hop = destination;
                     path.push_back(hop);
                     while(prev[hop-1]!=-1){
@@ -201,7 +243,7 @@ int main(void)
                     }
                     for (unsigned i = path.size() - 1; i >= 1; i--)
                         std::cout << path[i] << "-";
-                    std::cout<<path[0]<<endl;
+                    std::cout<<path[0]<<std::endl;
                 }
             }
         }
