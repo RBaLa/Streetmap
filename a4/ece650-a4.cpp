@@ -110,7 +110,7 @@ int main(void)
             for (unsigned k=1; k<=n_vertices; k++){
                 
                 unsigned n_literals = n_vertices*k;
-                unsigned n_clauses[4] = {k,n_edges,int(n_vertices*k*(k-1)/2),int(k*n_vertices*(n_vertices-1)/2),n_edges};
+                unsigned n_clauses[4] = {k,int(n_vertices*k*(k-1)/2),int(k*n_vertices*(n_vertices-1)/2),n_edges};
                 Minisat::vec<Minisat::Lit> clause_1[n_clauses[0]];
                 Minisat::vec<Minisat::Lit> clause_2[n_clauses[1]];
                 Minisat::vec<Minisat::Lit> clause_3[n_clauses[2]];
@@ -119,7 +119,7 @@ int main(void)
                 
                 for (unsigned i=0; i<n_vertices; i++){
                     for (unsigned j=0; j<k; j++){
-                        literal_array = Minisat::mkLit(solver->newVar());   
+                        literal_array[i][j] = Minisat::mkLit(solver->newVar());   
                     }
                 }
                 
@@ -170,10 +170,6 @@ int main(void)
                             solver->addClause_(clause_4[j]);
                     }
                 }
-                clause_1.clear();
-                clause_2.clear();
-                clause_3.clear();
-                clause_4.clear();
                 
                 minimal_k = k;
                 found_solution = solver->solve();
