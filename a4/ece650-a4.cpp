@@ -69,18 +69,16 @@ int main(void)
             std::cin.ignore();
             continue;
         }
-        else
-            std::getline(std::cin,line);
         if (command=='V'){
             if (edge_values.size()>0){
                 edge_values.clear();
             }
-            std::istringstream input(line);
-            input>>n_vertices;
+            std::cin>>n_vertices;
             std::cout<<n_vertices;
             solver.reset(new Minisat::Solver());
         }
         if (command=='E'){
+            std::getline(std::cin,line);
             bool found_solution = false;
             int temp1, temp2;
             int minimal_k = 0;
@@ -201,10 +199,11 @@ int main(void)
             }
         }
         if (command=='s'){
-            std::istringstream input_2(line);
-            while(!input_2.eof()){
-                input_2>>source;
-                input_2>>destination;
+            std::getline(std::cin,line);
+            std::istringstream input(line);
+            while(!input.eof()){
+                input>>source;
+                input>>destination;
             }
             if ((source>n_vertices)||(destination>n_vertices)){
                 std::cerr<<"Error: specified node(s) not in graph.\n";
