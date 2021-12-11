@@ -175,17 +175,26 @@ int main(void)
                 //found_solution = solver->solve();
                 if (solver->solve()){
                     std::cout<<"k="<<k<<std::endl;
+                    int to_print = 0;
+                    std::vector<unsigned> cover_list;
                     for (unsigned i=0; i<k; i++){
-                        if (i!=k-1){
-                            for (unsigned j=0; j<n_vertices; j++)
-                                std::cout<<Minisat::toInt(solver->modelValue(literal_array[j][i]))<<" ";
-                        }
-                        else {
-                            for (unsigned j=0; j<n_vertices-1; j++)
-                                std::cout<<Minisat::toInt(solver->modelValue(literal_array[j][i]))<<" ";
-                            std::cout<<Minisat::toInt(solver->modelValue(literal_array[n_vertices-1][i]))<<std::endl;
+                        for (unsigned j=0; j<n_vertices; j++){
+                            to_print = Minisat::toInt(solver->modelValue(literal_array[j][i]))
+                            if (to_print==0)
+                                cover_list.push_back(j+1);
                         }
                     }
+                    std::sort(cover_list.begin(),cover_list.end());
+                    if (k>1){
+                        for (auto i=cover_list.begin();i<cover_list.end()-1;i++){
+                            if (i!=cover_list.end()-1)
+                                std::cout<<*i<<" ";
+                            else
+                                std::cout<<*i<<std::endl;
+                        }
+                    }
+                    else
+                        std::cout<<cover_list[0]<<std::endl;
                     break;
                 }
                 else{
