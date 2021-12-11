@@ -13,18 +13,18 @@ int main(void)
     unsigned n_edges = 0;
     unsigned source = 0;
     unsigned destination = 0;
-    vector<unsigned> edge_values;
+    std::vector<unsigned> edge_values;
     
     while (!cin.eof()){
-        string line;
+        std::string line;
         char command;
-        getline(cin,line);
+        std::getline(std::cin,line);
         command = line[0];
         if (command=='V'){
             if (edgeValues.size()>0){
                 edgeValues.clear();
             }
-            istringstream input(line);
+            std::istringstream input(line);
             input>>n_vertices;
             solver.reset(new Minisat::Solver());
         }
@@ -33,7 +33,7 @@ int main(void)
             int temp1, temp2;
             int minimal_k = 0;
             int E_flag = 0;
-            sregex_iterator iter(line.begin(),line.end(),ex);
+            std::sregex_iterator iter(line.begin(),line.end(),ex);
             while (iter!=End){
                 temp1 = stoi((*iter)[1]);
                 temp2 = stoi((*iter)[2]);
@@ -47,7 +47,7 @@ int main(void)
                 }
             }
             if (E_flag==1){
-                cerr<<"Error: vertex specified beyond range.\n";
+                std::cerr<<"Error: vertex specified beyond range.\n";
                 continue;
             }
             n_edges = edge_values.size()/2;
@@ -61,7 +61,7 @@ int main(void)
                 }
             }
             else{
-                cout<<"\n";
+                std::cout<<"\n";
                 continue;
             }
             
@@ -140,12 +140,12 @@ int main(void)
                     for (unsigned i=0; i<minimal_k; i++){
                         if (i!=k-1){
                             for (unsigned j=0; j<n_vertices; j++)
-                                cout<<Minisat::toInt(solver->modelValue(literal_array[j,i]))<<" ";
+                                std::cout<<Minisat::toInt(solver->modelValue(literal_array[j,i]))<<" ";
                         }
                         else {
                             for (unsigned j=0; j<n_vertices-1; j++)
-                                cout<<Minisat::toInt(solver->modelValue(literal_array[j,i]))<<" ";
-                            cout<<Minisat::toInt(solver->modelValue(literal_array[n_vertices-1,i]))<<endl;
+                                std::cout<<Minisat::toInt(solver->modelValue(literal_array[j,i]))<<" ";
+                            std::cout<<Minisat::toInt(solver->modelValue(literal_array[n_vertices-1,i]))<<endl;
                         }
                     }
                     delete[] ptr_to_literals;
@@ -158,16 +158,16 @@ int main(void)
             }
         }
         if (command=='s'){
-            istringstream input_2(line);
+            std::istringstream input_2(line);
             while(!input_2.eof()){
                 input_2>>source;
                 input_2>>destination;
             }
             if ((source>n_vertices)||(destination>n_vertices)){
-                cerr<<"Error: specified node(s) not in graph.\n";
+                std::cerr<<"Error: specified node(s) not in graph.\n";
             }
             else if ((source<=0)||(destination<=0)){
-                cerr<<"Error: specified node value(s) out of range.\n";
+                std::cerr<<"Error: specified node value(s) out of range.\n";
             }
             else{
                 unsigned edges1[n_edges], edges2[n_edges];
@@ -189,7 +189,7 @@ int main(void)
                 unsigned distance[n_vertices];
                 int prev[n_vertices];
                 if (bFSearch(neighborArray,source,destination,n_vertices,distance,prev)==false){
-                    cerr<<"Error: No path exists between specified nodes.\n";
+                    std::cerr<<"Error: No path exists between specified nodes.\n";
                 }
                 else{
                     vector<unsigned> path;
@@ -200,8 +200,8 @@ int main(void)
                         hop = prev[hop-1];
                     }
                     for (unsigned i = path.size() - 1; i >= 1; i--)
-                        cout << path[i] << "-";
-                    cout<<path[0]<<endl;
+                        std::cout << path[i] << "-";
+                    std::cout<<path[0]<<endl;
                 }
             }
         }
