@@ -73,14 +73,12 @@ int main(void)
                 edge_values.clear();
             }
             std::cin>>n_vertices;
-            std::cout<<n_vertices;
             solver.reset(new Minisat::Solver());
         }
         if (command=='E'){
             std::getline(std::cin,line);
             bool found_solution = false;
             int temp1, temp2;
-            int minimal_k = 0;
             int E_flag = 0;
             std::sregex_iterator iter(line.begin(),line.end(),ex);
             while (iter!=End){
@@ -114,7 +112,6 @@ int main(void)
             
             for (unsigned k=1; k<=n_vertices; k++){
                 
-                unsigned n_literals = n_vertices*k;
                 unsigned n_clauses[4] = {k,int(n_vertices*k*(k-1)/2),int(k*n_vertices*(n_vertices-1)/2),n_edges};
                 Minisat::vec<Minisat::Lit> clause_1[n_clauses[0]];
                 Minisat::vec<Minisat::Lit> clause_2[n_clauses[1]];
@@ -175,11 +172,10 @@ int main(void)
                             solver->addClause_(clause_4[j]);
                     }
                 }
-                
-                minimal_k = k;
-                found_solution = solver->solve();
-                if (found_solution==true){
-                    for (unsigned i=0; i<minimal_k; i++){
+                //found_solution = solver->solve();
+                if (solver->solve()){
+                    std::cout<<"k="<<k<<std::endl;
+                    for (unsigned i=0; i<k; i++){
                         if (i!=k-1){
                             for (unsigned j=0; j<n_vertices; j++)
                                 std::cout<<Minisat::toInt(solver->modelValue(literal_array[j][i]))<<" ";
