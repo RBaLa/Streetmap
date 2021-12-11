@@ -3,9 +3,9 @@
 #include <vector>
 #include <regex>
 #include <minisat/core/SolverTypes.h>
-#include "minisat/core/Solver.h"
+#include <minisat/core/Solver.h>
 
-int main()
+int main(void)
 {
     std::unique_ptr<Minisat::Solver> solver(new Minisat::Solver());
     
