@@ -153,8 +153,8 @@ int main(void)
                 
                 for (unsigned i=0; i<n_edges; i++){
                     for (unsigned j=0; j<k; j++){
-                        clause_4[i].push(literal_array[edges_1[i]][j]);
-                        clause_4[i].push(literal_array[edges_2[i]][j]);
+                        clause_4[i].push(literal_array[edges_1[i]-1][j]);
+                        clause_4[i].push(literal_array[edges_2[i]-1][j]);
                     }
                 }
                 
