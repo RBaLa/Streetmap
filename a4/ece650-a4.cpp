@@ -2,8 +2,8 @@
 #include <sstream>
 #include <vector>
 #include <regex>
-#include <minisat/core/SolverTypes.h>
-#include <minisat/core/Solver.h>
+#include "minisat/core/SolverTypes.h"
+#include "minisat/core/Solver.h"
 
 int main(void)
 {
