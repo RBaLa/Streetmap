@@ -64,13 +64,13 @@ int main(void)
         std::string line;
         char command;
         std::getline(std::cin,line);
-        cin>>command;
+        std::cin>>command;
         if (command=='\n'){
-            cin.ignore();
+            std::cin.ignore();
             continue;
         }
         else
-            getline(cin,line);
+            std::getline(std::cin,line);
         if (command=='V'){
             if (edge_values.size()>0){
                 edge_values.clear();
