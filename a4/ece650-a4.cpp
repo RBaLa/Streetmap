@@ -95,10 +95,8 @@ int main(void)
                 continue;
             }
             n_edges = edge_values.size()/2;
-            
-            
+            unsigned edges_1[n_edges], edges_2[n_edges];
             if (n_edges>0){
-                unsigned edges_1[n_edges], edges_2[n_edges];
                 for (unsigned i=0; i<n_edges; i++){
                     edges_1[i] = edge_values[2*i];
                     edges_2[i] = edge_values[2*i+1];
@@ -118,7 +116,6 @@ int main(void)
                 Minisat::vec<Minisat::Lit> clause_3[n_clauses[2]];
                 Minisat::vec<Minisat::Lit> clause_4[n_clauses[3]];
                 Minisat::Lit literal_array[n_vertices][k];
-                Minisat::Lit* ptr_to_literals = literal_array;
                 
                 for (unsigned i=0; i<n_vertices; i++){
                     for (unsigned j=0; j<k; j++){
@@ -128,7 +125,7 @@ int main(void)
                 
                 for (unsigned i=0; i<k; i++){
                     for (unsigned j=0; j<n_vertices; j++){
-                        clause_1[i].push_back(literal_array[j][i]);
+                        clause_1[i].push(literal_array[j][i]);
                     }
                 }
                 
@@ -136,8 +133,8 @@ int main(void)
                 for (unsigned i=0; i<k; i++){
                     for (unsigned j1=0; j1<n_vertices-1; j1++){
                         for (unsigned j2=j1+1; j2<n_vertices; j2++){
-                            clause_3[count].push_back(~literal_array[j1][i]);
-                            clause_3[count].push_back(~literal_array[j2][i]);
+                            clause_3[count].push(~literal_array[j1][i]);
+                            clause_3[count].push(~literal_array[j2][i]);
                             count++;
                         }
                     }
@@ -147,8 +144,8 @@ int main(void)
                 for (unsigned i=0; i<n_vertices; i++){
                     for (unsigned j1=0; j1<k-1; j1++){
                         for (unsigned j2=j1+1; j2<k; j2++){
-                            clause_2[count].push_back(~literal_array[i][j1]);
-                            clause_2[count].push_back(~literal_array[i][j2]);
+                            clause_2[count].push(~literal_array[i][j1]);
+                            clause_2[count].push(~literal_array[i][j2]);
                             count++;
                         }
                     }
@@ -156,8 +153,8 @@ int main(void)
                 
                 for (unsigned i=0; i<n_edges; i++){
                     for (unsigned j=0; j<k; j++){
-                        clause_4[i].push_back(literal_array[edges_1[i]][j]);
-                        clause_4[i].push_back(literal_array[edges_2[i]][j]);
+                        clause_4[i].push(literal_array[edges_1[i]][j]);
+                        clause_4[i].push(literal_array[edges_2[i]][j]);
                     }
                 }
                 
@@ -192,11 +189,9 @@ int main(void)
                             std::cout<<Minisat::toInt(solver->modelValue(literal_array[n_vertices-1][i]))<<std::endl;
                         }
                     }
-                    delete[] ptr_to_literals;
                     break;
                 }
                 else{
-                    delete[] ptr_to_literals;
                     solver.reset(new Minisat::Solver());
                 }
             }
