@@ -174,7 +174,6 @@ int main(void)
                 }
                 //found_solution = solver->solve();
                 if (solver->solve()){
-                    std::cout<<"k="<<k<<std::endl;
                     int to_print = 0;
                     std::vector<unsigned> cover_list;
                     for (unsigned i=0; i<k; i++){
