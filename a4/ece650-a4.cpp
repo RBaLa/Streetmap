@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <queue>
 #include <regex>
 #include <minisat/core/SolverTypes.h>
 #include "minisat/core/Solver.h"
@@ -57,7 +58,7 @@ int main(void)
     unsigned destination = 0;
     std::vector<unsigned> edge_values;
     
-    while (!cin.eof()){
+    while (!std::cin.eof()){
         std::string line;
         char command;
         std::getline(std::cin,line);
