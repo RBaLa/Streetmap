@@ -176,25 +176,25 @@ int main(void)
                 if (solver->solve()){
                     std::cout<<"k="<<k<<std::endl;
                     int to_print = 0;
+                    std::vector<unsigned> cover_list;
                     for (unsigned i=0; i<k; i++){
-                        if (i!=k-1){
-                            for (unsigned j=0; j<n_vertices; j++){
-                                to_print = Minisat::toInt(solver->modelValue(literal_array[j][i]))
-                                if (to_print==0)
-                                    std::cout<<j+1<<" ";
-                            }
-                        }
-                        else {
-                            for (unsigned j=0; j<n_vertices-1; j++){
-                                to_print = Minisat::toInt(solver->modelValue(literal_array[j][i]))
-                                if (to_print==0)
-                                    std::cout<<j+1<<std::endl;
-                            }
-                            to_print = Minisat::toInt(solver->modelValue(literal_array[n_vertices-1][i]))
+                        for (unsigned j=0; j<n_vertices; j++){
+                            to_print = Minisat::toInt(solver->modelValue(literal_array[j][i]))
                             if (to_print==0)
-                                std::cout<<to_print<<std::endl;
+                                cover_list.push_back(j+1);
                         }
                     }
+                    std::sort(cover_list.begin(),cover_list.end());
+                    if (k>1){
+                        for (auto i=cover_list.begin();i<cover_list.end()-1;i++){
+                            if (i!=cover_list.end()-1)
+                                std::cout<<*i<<" ";
+                            else
+                                std::cout<<*i<<std::endl;
+                        }
+                    }
+                    else
+                        std::cout<<cover_list[0]<<std::endl;
                     break;
                 }
                 else{
