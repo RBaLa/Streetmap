@@ -3,6 +3,7 @@
 #include <vector>
 #include <queue>
 #include <regex>
+#include <memory>
 #include <minisat/core/SolverTypes.h>
 #include "minisat/core/Solver.h"
 
