@@ -21,8 +21,8 @@ int main(void)
         std::getline(std::cin,line);
         command = line[0];
         if (command=='V'){
-            if (edgeValues.size()>0){
-                edgeValues.clear();
+            if (edge_values.size()>0){
+                edge_values.clear();
             }
             std::istringstream input(line);
             input>>n_vertices;
@@ -41,7 +41,7 @@ int main(void)
                 edge_values.push_back(temp2);
                 ++iter;
             }
-            for (unsigned i=0; i<edgeValues.size(); i++){
+            for (unsigned i=0; i<edge_values.size(); i++){
                 if (edge_values[i]>n_vertices){
                     E_flag = 1;
                 }
