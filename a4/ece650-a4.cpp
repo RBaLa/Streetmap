@@ -119,7 +119,7 @@ int main(void)
                 
                 for (unsigned i=0; i<n_vertices; i++){
                     for (unsigned j=0; j<k; j++){
-                        literal_array = Minisat::mkLit(solver->newVar());   
+                        literal_array[i][j] = Minisat::mkLit(solver->newVar());   
                     }
                 }
                 
