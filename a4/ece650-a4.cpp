@@ -63,7 +63,6 @@ int main(void)
     while (!std::cin.eof()){
         std::string line;
         char command;
-        std::getline(std::cin,line);
         std::cin>>command;
         if (command=='\n'){
             std::cin.ignore();
