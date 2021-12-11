@@ -77,7 +77,6 @@ int main(void)
         }
         if (command=='E'){
             std::getline(std::cin,line);
-            bool found_solution = false;
             int temp1, temp2;
             int E_flag = 0;
             std::sregex_iterator iter(line.begin(),line.end(),ex);
@@ -174,7 +173,6 @@ int main(void)
                 }
                 //found_solution = solver->solve();
                 if (solver->solve()){
-                    std::cout<<"k="<<k<<std::endl;
                     int to_print = 0;
                     std::vector<unsigned> cover_list;
                     for (unsigned i=0; i<k; i++){
