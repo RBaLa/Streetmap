@@ -186,7 +186,7 @@ int main(void)
                     }
                     std::sort(cover_list.begin(),cover_list.end());
                     if (k>1){
-                        for (auto i=cover_list.begin();i<cover_list.end()-1;i++){
+                        for (auto i=cover_list.begin();i<cover_list.end();i++){
                             if (i!=cover_list.end()-1)
                                 std::cout<<*i<<" ";
                             else
