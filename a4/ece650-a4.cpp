@@ -2,16 +2,19 @@
 #include <sstream>
 #include <vector>
 #include <regex>
-#include "minisat/core/SolverTypes.h"
+#include <minisat/core/SolverTypes.h>
 #include "minisat/core/Solver.h"
 
-int main(void)
+int main()
 {
     std::unique_ptr<Minisat::Solver> solver(new Minisat::Solver());
     
     unsigned n_vertices = 0;
     unsigned n_edges = 0;
+    unsigned source = 0;
+    unsigned destination = 0;
     vector<unsigned> edge_values;
+    vector<Minisat::Lit> literals;
     
     while (!cin.eof()){
         string line;
@@ -27,6 +30,9 @@ int main(void)
             solver.reset (new Minisat::Solver());
         }
         if (command=='E'){
+            
+            bool found_solution = false;
+            
             int temp1, temp2;
             int E_flag = 0;
             sregex_iterator iter(line.begin(),line.end(),ex);
@@ -47,10 +53,70 @@ int main(void)
                 continue;
             }
             n_edges = edge_values.size()/2;
-        
+            
+            for (unsigned k=1; k<=n_vertices; k++){
+                for (unsigned i=0; i<k; i++){
+                    unisigned n_literals = n_vertices*k;
+                    
+                    
+                }
+                
+                
+                if (found_solution==true){
+                    break;
+                }
+            }
             
             
             
         }
+        if (command=='s'){
+            istringstream input_2(line);
+            while(!input_2.eof()){
+                input_2>>source;
+                input_2>>destination;
+            }
+            if ((source>nVertices)||(destination>nVertices)){
+                cerr<<"Error: specified node(s) not in graph.\n";
+            }
+            else if ((source<=0)||(destination<=0)){
+                cerr<<"Error: specified node value(s) out of range.\n";
+            }
+            else{
+                unsigned edges1[nEdges], edges2[nEdges];
+                for (unsigned i=0; i<nEdges; i++){
+                    edges1[i] = edgeValues[2*i];
+                    edges2[i] = edgeValues[2*i+1];
+                }
+                vector<unsigned> neighborArray[nVertices];
+                for (unsigned i=0; i<nVertices; i++){
+                    for (unsigned j=0; j<nEdges; j++){
+                        if ((i+1)==edges1[j]){
+                            neighborArray[i].push_back(edges2[j]);
+                        }
+                        if ((i+1)==edges2[j]){
+                            neighborArray[i].push_back(edges1[j]);
+                        }
+                    }
+                }
+                unsigned distance[nVertices];
+                int prev[nVertices];
+                if (bFSearch(neighborArray,source,destination,nVertices,distance,prev)==false){
+                    cerr<<"Error: No path exists between specified nodes.\n";
+                }
+                else{
+                    vector<unsigned> path;
+                    unsigned hop = destination;
+                    path.push_back(hop);
+                    while(prev[hop-1]!=-1){
+                        path.push_back(prev[hop-1]);
+                        hop = prev[hop-1];
+                    }
+                    for (unsigned i = path.size() - 1; i >= 1; i--)
+                        cout << path[i] << "-";
+                    cout<<path[0]<<endl;
+                }
+            }
+
     }
 }
