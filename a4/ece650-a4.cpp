@@ -71,6 +71,7 @@ int main(void)
             }
             std::istringstream input(line);
             input>>n_vertices;
+            std::cout<<n_vertices;
             solver.reset(new Minisat::Solver());
         }
         if (command=='E'){
