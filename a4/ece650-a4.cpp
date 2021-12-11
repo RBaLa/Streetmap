@@ -111,7 +111,7 @@ int main(void)
             for (unsigned k=1; k<=n_vertices; k++){
                 
                 unsigned n_literals = n_vertices*k;
-                unsigned n_clauses = {k,n_edges,int(n_vertices*k*(k-1)/2),int(k*n_vertices*(n_vertices-1)/2),n_edges};
+                unsigned n_clauses[4] = {k,n_edges,int(n_vertices*k*(k-1)/2),int(k*n_vertices*(n_vertices-1)/2),n_edges};
                 Minisat::vec<Minisat::Lit> clause_1[n_clauses[0]];
                 Minisat::vec<Minisat::Lit> clause_2[n_clauses[1]];
                 Minisat::vec<Minisat::Lit> clause_3[n_clauses[2]];
