@@ -179,7 +179,7 @@ int main(void)
                     std::vector<unsigned> cover_list;
                     for (unsigned i=0; i<k; i++){
                         for (unsigned j=0; j<n_vertices; j++){
-                            to_print = Minisat::toInt(solver->modelValue(literal_array[j][i]))
+                            to_print = Minisat::toInt(solver->modelValue(literal_array[j][i]));
                             if (to_print==0)
                                 cover_list.push_back(j+1);
                         }
