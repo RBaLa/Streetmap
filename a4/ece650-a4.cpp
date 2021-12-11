@@ -14,7 +14,6 @@ int main()
     unsigned source = 0;
     unsigned destination = 0;
     vector<unsigned> edge_values;
-    vector<Minisat::Lit> literals;
     
     while (!cin.eof()){
         string line;
@@ -30,9 +29,7 @@ int main()
             solver.reset (new Minisat::Solver());
         }
         if (command=='E'){
-            
             bool found_solution = false;
-            
             int temp1, temp2;
             int E_flag = 0;
             sregex_iterator iter(line.begin(),line.end(),ex);
@@ -54,11 +51,20 @@ int main()
             }
             n_edges = edge_values.size()/2;
             
+            Minisat::vec<Minisat::Lit> clause_4[n_edges];
+            
             for (unsigned k=1; k<=n_vertices; k++){
-                for (unsigned i=0; i<k; i++){
-                    unisigned n_literals = n_vertices*k;
-                    
-                    
+                
+                unisigned n_literals = n_vertices*k;
+                Minisat::vec<Minisat::Lit> clause_1[k];
+                Minisat::vec<Minisat::Lit> clause_2[int(n_vertices*k*(k-1)/2)];
+                Minisat::vec<Minisat::Lit> clause_3[int(k*n_vertices*(n_vertices-1)/2)];
+                Minisat::Lit literal_array[n_vertices,k];
+                
+                for (unsigned i=0; i<n_vertices; i++){
+                    for (unsigned j=0; j<k; j++){
+                        literal_array = Minisat::mkLit(solver->newVar());   
+                    }
                 }
                 
                 
