@@ -61,7 +61,7 @@ int main(int argc, char** argv){
         }
     }
 
-    pid_t child_rgen,child_gg,child_mst;
+    pid_t child_rgen,child_gg,child_sp;
     int pipe1[2],pipe2[2];
     int status;
     pipe(pipe1);
@@ -88,14 +88,14 @@ int main(int argc, char** argv){
             execlp("python","python","getgraph.py",(char*)NULL);
         }
         else{
-            child_mst = fork();
-            if (child_mst==0){
+            child_sp = fork();
+            if (child_sp==0){
                 dup2(pipe2[READ_END],STDIN_FILENO);
                 close(pipe2[WRITE_END]);
                 close(pipe2[READ_END]);
                 close(pipe1[WRITE_END]);
                 close(pipe1[READ_END]);
-                execlp("./mst",NULL);
+                execlp("./sp",NULL);
             }
             else{
                 int child_read = fork();
@@ -109,7 +109,7 @@ int main(int argc, char** argv){
                     close(pipe1[READ_END]);
                     waitpid(child_read,&status,0);
                     kill(child_gg,SIGTERM);
-                    kill(child_mst,SIGTERM);
+                    kill(child_sp,SIGTERM);
                     kill(child_rgen,SIGTERM);
                 }
             }
