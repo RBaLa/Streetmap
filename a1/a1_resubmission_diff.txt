@@ -1,2 +1,0 @@
-427d426
-<     print("Program terminated.")
