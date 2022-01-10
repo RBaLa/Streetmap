@@ -61,7 +61,7 @@ int main(int argc, char** argv){
         }
     }
 
-    pid_t child_rgen,child_a1,child_a2;
+    pid_t child_rgen,child_gg,child_mst;
     int pipe1[2],pipe2[2];
     int status;
     pipe(pipe1);
@@ -77,25 +77,25 @@ int main(int argc, char** argv){
         execv("./rgen",argv);
     }
     else{
-        child_a1 = fork();
-        if (child_a1==0){
+        child_gg = fork();
+        if (child_gg==0){
             dup2(pipe1[READ_END],STDIN_FILENO);
             close(pipe1[WRITE_END]);
             close(pipe1[READ_END]);
             dup2(pipe2[WRITE_END],STDOUT_FILENO);
             close(pipe2[READ_END]);
             close(pipe2[WRITE_END]);
-            execlp("python","python","ece650-a1.py",(char*)NULL);
+            execlp("python","python","getgraph.py",(char*)NULL);
         }
         else{
-            child_a2 = fork();
-            if (child_a2==0){
+            child_mst = fork();
+            if (child_mst==0){
                 dup2(pipe2[READ_END],STDIN_FILENO);
                 close(pipe2[WRITE_END]);
                 close(pipe2[READ_END]);
                 close(pipe1[WRITE_END]);
                 close(pipe1[READ_END]);
-                execlp("./ece650-a2",NULL);
+                execlp("./mst",NULL);
             }
             else{
                 int child_read = fork();
@@ -108,8 +108,8 @@ int main(int argc, char** argv){
                     close(pipe1[WRITE_END]);
                     close(pipe1[READ_END]);
                     waitpid(child_read,&status,0);
-                    kill(child_a1,SIGTERM);
-                    kill(child_a2,SIGTERM);
+                    kill(child_gg,SIGTERM);
+                    kill(child_mst,SIGTERM);
                     kill(child_rgen,SIGTERM);
                 }
             }
